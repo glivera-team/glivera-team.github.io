@@ -1,0 +1,259 @@
+---
+layout: post
+title:  "Организация кнопок на сайте с помощью Sass"
+date:   2015-12-28 08:24:00 +0300
+categories: sass
+autor:  Гатилин Максим
+---
+Привет, разработчик!
+
+Часто дизайнеры делают в макетах кнопки разных размеров и величин, некоторые из которых повторяются, некоторые нет. Неплохо было бы организовать систему для быстрого добавления и редактирования кнопок, в чем на могут помочь sass @extend's. Приведу небольшую иллюстрацию кнопок в типичном проекте.
+![](../../../../i/btns_lesson_1.png)
+HTML для наших кнопок будет неизменным в течение всей статьи:
+{% highlight html %}
+<ul class="about_butt_list">
+    <li class="about_butt_item"><a href="#" class="about_butt blue_mod">Инфраструктура</a></li>
+    <li class="about_butt_item"><a href="#" class="about_butt red_mod">Квартиры</a></li>
+    <li class="about_butt_item"><a href="#" class="about_butt yellow_mod">Галерея</a></li>
+</ul>
+{% endhighlight %}
+## Как не надо делать
+Первое что может прийти в голову верстальщику — записать стили для кнопок сразу в классы наших элементов.
+SCSS:
+{% highlight scss %}
+.about_butt {
+	display: block;
+	height:50px;
+	line-height: 50px;
+	text-align: center;
+	font-family: 'intro';
+	font-size: 12px;
+}
+{% endhighlight %}
+Мы написали стили для нашего основного класса, теперь сделаем его модификаторы по цвету(для цвета использованы переменные для удобства):
+{% highlight scss %}
+.about_butt {
+	display: block;
+	height: 50px;
+	line-height: 50px;
+	text-align: center;
+	font-family: 'intro';
+	font-size: 12px;
+
+	&.blue_mod {
+		background: $blue_1;
+		color: $white;
+		transition: background .3s ease;
+
+		&:hover, &:focus {
+			text-decoration: none;
+		}
+
+		&:hover {
+			background: lighten($blue_1, 5%);
+		}
+	}
+	&.red_mod {
+		background: $red_1;
+		color: $white;
+		transition: background .3s ease;
+
+		&:hover, &:focus {
+			text-decoration: none;
+		}
+
+		&:hover {
+			background: lighten($red_2, 5%);
+		}
+	}
+	&.yellow_mod {
+		background: $yellow_1;
+		color: $white;
+		transition: background .3s ease;
+
+		&:hover, &:focus {
+			text-decoration: none;
+		}
+	}
+}
+{% endhighlight %}
+Пока все просто и понятно.Но на следующей странице появляется вот такая кнопка:
+![](../../../../i/btns_lesson_2.png)
+Эта кнопка имеет те же размеры, что и предыдущие, но другое оформление. Давайте нарушим принцип DRY и скопируем стили для нее от наших предыдущих кнопок:
+{% highlight scss %}
+.news_more_butt {
+	display: block;
+	height:50px;
+	line-height: 50px;
+	text-align: center;
+	font-family: 'intro';
+	font-size: 12px;
+}
+{% endhighlight %}
+С размерами определились, давайте добавим оформление:
+{% highlight scss %}
+.news_more_butt {
+	color:$black_2;
+	background: transparent;
+	box-shadow:inset 0 0 0 2rem $gray_4;
+	transition:all .3s ease;
+
+	&:hover,&:focus {
+		text-decoration: none;
+	}
+
+	&:hover {
+		background: $gray_4;
+		color:$white;
+	}
+}
+{% endhighlight %}
+Ну и немного стилей для размещения нашей кнопки:
+{% highlight scss %}
+.news_more_butt {
+	width: 186px;
+	margin: 20px auto;
+}
+{% endhighlight %}
+Идем дальше и на другой странице встречаем следующую кнопку:
+![](../../../../i/btns_lesson_3.png)
+Оформление осталось прежним, а вот размеры кнопки и шрифта изменились. И тут перед нами два пути:
+
+1. Продолжать копировать стили для разных кнопок и давать им уникальные классы
+2. Сделать специальные классы для оформления и добавлять его в наши теги
+
+Минусы каждого из этих подходов очевидны. В первом мы копируем слишком много кода, и когда нужно что-либо изменить — менять нужно в нескольких местах. Во втором мы добавляем презентационные классы, и это тоже плохо(любители Bootstrap бы возразили).
+
+Но есть и третий путь — использование sass @extend(Это можно реализовать в любом препроцессоре).
+
+## Третий путь
+Примеси для кнопок положите в отдельный файл — buttons.scss, это крайне удобно.Мы будем разделять их на размеры(+типографика) и цветовые схемы.Напишем классы для размеров:
+{% highlight scss %}
+%butt_size_1 {
+	display: block;
+	height:50px;
+	line-height: 50px;
+	text-align: center;
+	font-family: 'intro';
+	font-size: 12px;
+}
+
+%butt_size_2 {
+	display: block;
+	height:70px;
+	line-height: 70px;
+	text-align: center;
+	font-family: 'intro';
+	font-size: 16px;
+}
+{% endhighlight %}
+Отлично, а теперь цветовые схемы:
+{% highlight scss %}
+%butt_gray_1 {
+	color: $black_2;
+	background: transparent;
+	box-shadow: inset 0 0 0 2rem $gray_4;
+	transition: all .3s ease;
+
+	&:hover, &:focus {
+		text-decoration: none;
+	}
+
+	&:hover {
+		background: $gray_4;
+		color: $white;
+	}
+}
+
+%butt_blue_1 {
+	background: $blue_1;
+	color: $white;
+	transition: all .3s ease;
+
+	&:hover, &:focus {
+		text-decoration: none;
+	}
+
+	&:hover {
+		background: lighten($blue_1, 5%);
+	}
+}
+
+%butt_red_1 {
+	background: $red_2;
+	color: $white;
+	transition: all .3s ease;
+
+	&:hover, &:focus {
+		text-decoration: none;
+	}
+
+	&:hover {
+		background: lighten($red_2, 5%);
+	}
+}
+
+%butt_yellow_1 {
+	background: $yellow_1;
+	color: $white;
+	transition: all .3s ease;
+
+	&:hover, &:focus {
+		text-decoration: none;
+	}
+
+	&:hover {
+		background: lighten($yellow_1, 5%);
+	}
+}
+
+%butt_green_1 {
+	background: $green_1;
+	color: $white;
+	transition: all .3s ease;
+
+	&:hover, &:focus {
+		text-decoration: none;
+	}
+
+	&:hover {
+		background: lighten($green_1, 5%);
+	}
+}
+{% endhighlight %}
+Вот мы и получили гибкую систему для организации кнопок.Теперь наш scss будет выглядеть следующим образом:
+{% highlight scss %}
+.about_butt {
+	@extend %butt_size_1;
+	&.blue_mod {
+		@extend %butt_blue_1;
+	}
+	&.red_mod {
+		@extend %butt_red_1;
+	}
+	&.yellow_mod {
+		@extend %butt_yellow_1;
+	}
+}
+.news_more_butt {
+	@extend %butt_size_1;
+	@extend %butt_gray_1;
+
+	width: 186px;
+	margin: 20px auto;
+}
+.show_news_butt {
+	@extend %butt_size_2;
+	@extend %butt_gray_1;
+
+	display: inline-block;
+}
+{% endhighlight %}
+
+Если появляется новая цветовая схема - мы просто делаем для нее @extend и используем, если изменяется текущая - правим в одном месте.
+
+## Ключевые моменты
+
+* Используем тихие классы, а не миксины(меньше результирующего CSS)
+* Если у вас на сайте одна-две кнопки - данная система будет излишней
+* В тихих классах объявляется display:block, потом это можно переписать в правиле селектора
