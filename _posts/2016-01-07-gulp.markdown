@@ -25,13 +25,391 @@ Gulp - это npm-пакет для node.js, поэтому устанавлив
 
 Если у вас Windows, вам необходимо установить python 2 версии ([https://www.python.org/downloads/release/python-2710/](https://www.python.org/downloads/release/python-2710/)) и Microsoft Visual Studio ([https://www.microsoft.com/en-gb/download/details.aspx?id=44914](https://www.microsoft.com/en-gb/download/details.aspx?id=44914)). Они необходимы для работы с некоторыми пакетами, чаще всего проблемы при установке возникают в связи их отсутствия.
 
-Теперь мы готовы устанавливать пакеты для node.js. Делается это с помощью пакетного менеджера для node.js - npm. Чтобы инициализировать пакет, перейдите в папку с вашим проектом, и в консоли введите:
+После установки перейдите в папку с проектом и в консоли введите:
 {% highlight html %}
 npm init
 {% endhighlight %}
-Последуют разные сообщения, на все можете отвечать утвержительно. После
+Последуют разные сообщения, на все можете отвечать утвержительно. Эта процедура инициализации необходима для установки пакетов. После её завершения введите в консоль:
 {% highlight html %}
 npm install gulp
 {% endhighlight %}
-После выполнения этой команды вы увидите в вашем проекте папку node_modules. Это папка для хранения npm-пакетов.
+После выполнения этой команды вы увидите в вашем проекте папку node_modules. Это папка для хранения npm-пакетов. В данном случае вы установили пакет локально, т.е. все файлы gulp лежат в проеке. Как вы могли заметить это занимает некоторое время. Для того, чтобы не устанавливать каждый раз кучу модулей локально - устанавливайте пакеты глобально, а затем делайте ссылку на них в проекте. Как это сделать:
+{% highlight html %}
+npm install gulp -g
+npm link gulp
+{% endhighlight %}
+Мы установили gulp глобально, а затем сделали ссылку в проект. Все команды запускаются из папки проекта.
+
+Далее установим остальные пакеты и слинкуем их:
+{% highlight html %}
+npm install rimraf gulp-jade gulp-sass gulp-inline-image gulp-autoprefixer gulp-plumber gulp-directory-sync browser-sync gulp-concat -g
+npm link rimraf gulp-jade gulp-sass gulp-inline-image gulp-autoprefixer gulp-plumber gulp-directory-sync browser-sync gulp-concat -g
+npm install gulp-html5-lint gulp-purifycss gulp-uglify gulp-imagemin imagemin-pngquant gulp-csso -g
+npm link gulp-html5-lint gulp-purifycss gulp-uglify gulp-imagemin imagemin-pngquant gulp-csso
+{% endhighlight %}
+Сначала я устанавливаю плагины для разработки, потом для сборки. Если у вас возникли проблемы с установкой какого-либо плагина - попробуйте установить его отдельно.
+
+## Пишем gulpfile
+В корне вашего проекта создайте gulpfile.js. Без этого файла gulp работать не будет. В нем описываются все таски, перечисленные в начале статьи.
+Сначала необходимо прописать зависимости для проекта.
+
+gulpfile.js
+{% highlight javascript %}
+// plugins for development
+var gulp = require('gulp'),
+	rimraf = require('rimraf'),
+	jade = require('gulp-jade'),
+	sass = require('gulp-sass'),
+	inlineimage = require('gulp-inline-image'),
+	prefix = require('gulp-autoprefixer'),
+	plumber = require('gulp-plumber'),
+	dirSync = require('gulp-directory-sync'),
+	browserSync = require('browser-sync').create(),
+	concat = require('gulp-concat');
+
+// plugins for build
+var purify = require('gulp-purifycss'),
+	uglify = require('gulp-uglify'),
+	imagemin = require('gulp-imagemin'),
+	pngquant = require('imagemin-pngquant'),
+	csso = require('gulp-csso');
+
+//plugins for testing
+var html5Lint = require('gulp-html5-lint');
+{% endhighlight %}
+Обычно в репозитории плагинов есть информация о том, как прописывать зависимость.
+Далее объявим переменные для папок проекта:
+{% highlight javascript %}
+var assetsDir = 'assets/';
+var outputDir = 'dist/';
+var buildDir = 'build/';
+{% endhighlight %}
+Их будем использовать в тасках. Напишем первый таск - для компиляции jade
+{% highlight javascript %}
+gulp.task('jade', function () {// Название таска
+	gulp.src([assetsDir + 'jade/*.jade', '!' + assetsDir + 'jade/_*.jade'])//берем файлы
+		.pipe(plumber())
+		.pipe(jade({pretty: true}))// компилим jade
+		.pipe(gulp.dest(outputDir))// куда положить html
+		.pipe(browserSync.stream());
+});
+{% endhighlight %}
+Теперь, чтобы скомпилировать jade, достаточно ввести в консоль:
+{% highlight html %}
+gulp jade
+{% endhighlight %}
+Аналогично sass
+{% highlight javascript %}
+gulp.task('sass', function () {
+	gulp.src([assetsDir + 'sass/**/*.scss', '!' + assetsDir + 'sass/**/_*.scss'])//берем файлы
+		.pipe(plumber())
+		.pipe(sass())// компилим sass
+		.pipe(inlineimage())
+		.pipe(prefix('last 3 versions'))
+		.pipe(gulp.dest(outputDir + 'styles/'))// куда положить css
+		.pipe(browserSync.stream());
+});
+{% endhighlight %}
+{% highlight html %}
+gulp sass
+{% endhighlight %}
+Постепенно вы привыкните к синтаксису. Обычно в репозитории gulp-модуля есть примеры тасков. Обратите внимание на строчку
+{% highlight javascript %}
+.pipe(plumber())
+{% endhighlight %}
+При возникновении ошибок компиляции будет "вылетать" gulp, и нужно запускать заново. Но с плагином plumber этого не будет. Для того, чтобы перезапускать браузер после каждого прохождения таска используется команда:
+{% highlight javascript %}
+.pipe(browserSync.stream());
+{% endhighlight %}
+Для конкатинации скриптов служит следующий таск:
+{% highlight javascript %}
+gulp.task('jsConcat', function () {
+	return gulp.src(assetsDir + 'js/all/**/*.js')
+		.pipe(concat('all.js', {newLine: ';'}))
+		.pipe(gulp.dest(outputDir + 'js/'))
+		.pipe(browserSync.stream());
+});
+{% endhighlight %}
+Он соединит все таски из папки js/all в один скрипт. Обычно это разные плагины.
+
+Таски для синхронизации папок проекта между собой:
+{% highlight javascript %}
+//-------------------------------------------------Synchronization
+gulp.task('imageSync', function () {
+	return gulp.src('')
+		.pipe(plumber())
+		.pipe(dirSync(assetsDir + 'i/', outputDir + 'i/', {printSummary: true}))
+		.pipe(browserSync.stream());
+});
+
+gulp.task('fontsSync', function () {
+	return gulp.src('')
+		.pipe(plumber())
+		.pipe(dirSync(assetsDir + 'fonts/', outputDir + 'fonts/', {printSummary: true}))
+		.pipe(browserSync.stream());
+});
+
+gulp.task('jsSync', function () {
+	return gulp.src(assetsDir + 'js/*.js')
+		.pipe(plumber())
+		.pipe(gulp.dest(outputDir + 'js/'))
+		.pipe(browserSync.stream());
+});
+//-------------------------------------------------Synchronization###
+{% endhighlight %}
+Для того, чтобы отслеживать изменения в проекте и запускать таски автоматически используем gulp.watch
+{% highlight javascript %}
+gulp.task('watch', function () {
+	gulp.watch(assetsDir + 'jade/**/*.jade', ['jade']);
+	gulp.watch(assetsDir + 'sass/**/*.scss', ['sass']);
+	gulp.watch(assetsDir + 'js/**/*.js', ['jsSync']);
+	gulp.watch(assetsDir + 'js/all/**/*.js', ['jsConcat']);
+	gulp.watch(assetsDir + 'i/**/*', ['imageSync']);
+	gulp.watch(assetsDir + 'fonts/**/*', ['fontsSync']);
+});
+{% endhighlight %}
+Для обновления браузера и локального хоста используем browser-sync
+{% highlight javascript %}
+gulp.task('browser-sync', function () {
+	browserSync.init({
+		port: 1337,
+		server: {
+			baseDir: outputDir
+		}
+	});
+});
+{% endhighlight %}
+Теперь, чтобы запустить все это хозяйство напишем дефолтный таск gulp
+{% highlight javascript %}
+gulp.task('default', ['jade', 'sass', 'imageSync', 'fontsSync', 'jsConcat', 'jsSync', 'watch', 'browser-sync']);
+{% endhighlight %}
+Здесь мы указываем какие таски необходимо запустить вместе. Благодаря таску watch, gulp не закончит работу, а будет ждать изменений.
+
+Для того, чтобы запустить дефолтный таск введите
+{% highlight html %}
+gulp
+{% endhighlight %}
+Откроется браузер и все будет компилироваться и обновляться автоматически.
+
+Теперь напишем сборку проекта:
+{% highlight javascript %}
+
+//---------------------------------building final project folder
+//clean build folder
+gulp.task('cleanBuildDir', function (cb) {
+	rimraf(buildDir, cb);
+});
+
+
+//minify images
+gulp.task('imgBuild', function () {
+	return gulp.src(outputDir + 'i/**/*')
+		.pipe(imagemin({
+			progressive: true,
+			svgoPlugins: [{removeViewBox: false}],
+			use: [pngquant()]
+		}))
+		.pipe(gulp.dest(buildDir + 'i/'))
+});
+
+//copy fonts
+gulp.task('fontsBuild', function () {
+	return gulp.src(outputDir + 'fonts/**/*')
+		.pipe(gulp.dest(buildDir + 'fonts/'))
+});
+
+//copy html
+gulp.task('htmlBuild', function () {
+	return gulp.src(outputDir + '**/*.html')
+		.pipe(gulp.dest(buildDir))
+});
+
+//copy and minify js
+gulp.task('jsBuild', function () {
+	return gulp.src(outputDir + 'js/**/*')
+		.pipe(uglify())
+		.pipe(gulp.dest(buildDir + 'js/'))
+});
+
+//copy, minify css
+gulp.task('cssBuild', function () {
+	return gulp.src(outputDir + 'styles/**/*')
+		.pipe(purify([outputDir + 'js/**/*', outputDir + '**/*.html']))
+		.pipe(csso())
+		.pipe(gulp.dest(buildDir + 'styles/'))
+});
+
+gulp.task('build', ['cleanBuildDir'], function () {
+	gulp.start('imgBuild', 'fontsBuild', 'htmlBuild', 'jsBuild', 'cssBuild');
+});
+{% endhighlight %}
+Запускаем
+{% highlight html %}
+gulp build
+{% endhighlight %}
+И наконец таск для валидации:
+{% highlight javascript %}
+gulp.task('validation', function () {
+	return gulp.src(buildDir + '**/*.html')
+		.pipe(html5Lint());
+});
+{% endhighlight %}
+Итоговый gulpfile:
+{% highlight javascript %}
+// plugins for development
+var gulp = require('gulp'),
+	rimraf = require('rimraf'),
+	jade = require('gulp-jade'),
+	sass = require('gulp-sass'),
+	inlineimage = require('gulp-inline-image'),
+	prefix = require('gulp-autoprefixer'),
+	plumber = require('gulp-plumber'),
+	dirSync = require('gulp-directory-sync'),
+	browserSync = require('browser-sync').create(),
+	concat = require('gulp-concat');
+
+// plugins for build
+var purify = require('gulp-purifycss'),
+	uglify = require('gulp-uglify'),
+	imagemin = require('gulp-imagemin'),
+	pngquant = require('imagemin-pngquant'),
+	csso = require('gulp-csso');
+
+//plugins for testing
+var html5Lint = require('gulp-html5-lint');
+
+var assetsDir = 'assets/';
+var outputDir = 'dist/';
+var buildDir = 'build/';
+
+//----------------------------------------------------Compiling
+gulp.task('jade', function () {
+	gulp.src([assetsDir + 'jade/*.jade', '!' + assetsDir + 'jade/_*.jade'])
+		.pipe(plumber())
+		.pipe(jade({pretty: true}))
+		.pipe(gulp.dest(outputDir))
+		.pipe(browserSync.stream());
+});
+
+gulp.task('sass', function () {
+	gulp.src([assetsDir + 'sass/**/*.scss', '!' + assetsDir + 'sass/**/_*.scss'])
+		.pipe(plumber())
+		.pipe(sass())
+		.pipe(inlineimage())
+		.pipe(prefix('last 3 versions'))
+		.pipe(gulp.dest(outputDir + 'styles/'))
+		.pipe(browserSync.stream());
+});
+
+gulp.task('jsConcat', function () {
+	return gulp.src(assetsDir + 'js/all/**/*.js')
+		.pipe(concat('all.js', {newLine: ';'}))
+		.pipe(gulp.dest(outputDir + 'js/'))
+		.pipe(browserSync.stream());
+});
+
+//----------------------------------------------------Compiling###
+
+//-------------------------------------------------Synchronization
+gulp.task('imageSync', function () {
+	return gulp.src('')
+		.pipe(plumber())
+		.pipe(dirSync(assetsDir + 'i/', outputDir + 'i/', {printSummary: true}))
+		.pipe(browserSync.stream());
+});
+
+gulp.task('fontsSync', function () {
+	return gulp.src('')
+		.pipe(plumber())
+		.pipe(dirSync(assetsDir + 'fonts/', outputDir + 'fonts/', {printSummary: true}))
+		.pipe(browserSync.stream());
+});
+
+gulp.task('jsSync', function () {
+	return gulp.src(assetsDir + 'js/*.js')
+		.pipe(plumber())
+		.pipe(gulp.dest(outputDir + 'js/'))
+		.pipe(browserSync.stream());
+});
+//-------------------------------------------------Synchronization###
+
+
+//watching files and run tasks
+gulp.task('watch', function () {
+	gulp.watch(assetsDir + 'jade/**/*.jade', ['jade']);
+	gulp.watch(assetsDir + 'sass/**/*.scss', ['sass']);
+	gulp.watch(assetsDir + 'js/**/*.js', ['jsSync']);
+	gulp.watch(assetsDir + 'js/all/**/*.js', ['jsConcat']);
+	gulp.watch(assetsDir + 'i/**/*', ['imageSync']);
+	gulp.watch(assetsDir + 'fonts/**/*', ['fontsSync']);
+});
+
+//livereload and open project in browser
+gulp.task('browser-sync', function () {
+	browserSync.init({
+		port: 1337,
+		server: {
+			baseDir: outputDir
+		}
+	});
+});
+
+
+//---------------------------------building final project folder
+//clean build folder
+gulp.task('cleanBuildDir', function (cb) {
+	rimraf(buildDir, cb);
+});
+
+
+//minify images
+gulp.task('imgBuild', function () {
+	return gulp.src(outputDir + 'i/**/*')
+		.pipe(imagemin({
+			progressive: true,
+			svgoPlugins: [{removeViewBox: false}],
+			use: [pngquant()]
+		}))
+		.pipe(gulp.dest(buildDir + 'i/'))
+});
+
+//copy fonts
+gulp.task('fontsBuild', function () {
+	return gulp.src(outputDir + 'fonts/**/*')
+		.pipe(gulp.dest(buildDir + 'fonts/'))
+});
+
+//copy html
+gulp.task('htmlBuild', function () {
+	return gulp.src(outputDir + '**/*.html')
+		.pipe(gulp.dest(buildDir))
+});
+
+//copy and minify js
+gulp.task('jsBuild', function () {
+	return gulp.src(outputDir + 'js/**/*')
+		.pipe(uglify())
+		.pipe(gulp.dest(buildDir + 'js/'))
+});
+
+//copy, minify css
+gulp.task('cssBuild', function () {
+	return gulp.src(outputDir + 'styles/**/*')
+		.pipe(purify([outputDir + 'js/**/*', outputDir + '**/*.html']))
+		.pipe(csso())
+		.pipe(gulp.dest(buildDir + 'styles/'))
+});
+
+//testing your build files
+gulp.task('validation', function () {
+	return gulp.src(buildDir + '**/*.html')
+		.pipe(html5Lint());
+});
+
+gulp.task('default', ['jade', 'sass', 'imageSync', 'fontsSync', 'jsConcat', 'jsSync', 'watch', 'browser-sync']);
+
+gulp.task('build', ['cleanBuildDir'], function () {
+	gulp.start('imgBuild', 'fontsBuild', 'htmlBuild', 'jsBuild', 'cssBuild');
+});
+{% endhighlight %}
 На этом все.
