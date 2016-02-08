@@ -292,7 +292,7 @@ gulp.task('svgSprite', ['svgSpriteBuild', 'svgSpriteSass']);
 
 }( window, document ) );
 {% endhighlight %}
-Файл подключен, после первой загрузки он кешируется.
+Файл подключен, после первой загрузки он кешируется. <b>Если вам нужно нужно обновить спрайт в js-файле приведенном выше меняйте параметр revision на +1.</b>
 Иконки вставляем через миксин jade, т.к. это быстро и удобно:
 {% highlight javascript %}
 mixin icon(name,mod)
