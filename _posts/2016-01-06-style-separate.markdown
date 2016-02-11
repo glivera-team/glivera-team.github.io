@@ -14,8 +14,8 @@ autor:  Гатилин Максим
 {% highlight html %}
 └──assets
     └── sass/
-        └── includes/
-            _mixins.scss
+        └── helpers/
+                _mixins.scss
         _reset.scss
         _fonts.scss
         _header.scss

@@ -1,0 +1,171 @@
+---
+layout: post
+title:  "КБЭМ - Контейнер, Блок, Элемент, Модификатор"
+date:   2016-02-11 08:24:00 +0300
+categories: structure
+autor:  Гатилин Максим
+---
+Привет, разработчик!
+
+БЭМ - методология для фронтенда от Яндекса. Про неё вы можете найти очень много информации в интернете. Множество компаний внедряет её у себя на проектах и мы не стали исключением. О том как писать по БЭМ правильно можно раздуть холивар, но в этой статье я просто напишу как верстаем мы.
+ 
+Идея в том, что к стандартным понятиям БЭМ добавляется еще контейнер. Контейнер - это некое хранилище для блока, которое необязательно должно быть связано с блоком. Иначе говоря - блоку все равно, в каком контейнере он находится, мы можем перемещать его из одного контейнера в другой, и смысл не потеряется. 
+
+## Покажите мне код!
+
+Возьмем кусочек макета и сделаем для него структуру:
+
+<img alt="" src="../../../../i/kbem-lesson-1.jpg">
+
+Не будем писать структуру для страницы, сосредоточимся на разметке для приведенной картинки. Для начала расставим теги. Мы видим перечень элементов, иначе говоря список.
+
+{% highlight html %}
+<ul>
+    <li></li>
+    <li></li>
+    <li></li>
+</ul>
+{% endhighlight %}
+li - это <b>контейнер</b>, в него мы будем вставлять <b>блок</b>. Напишем разметку для блока:
+{% highlight html %}
+<ul>
+    <li>
+        <div>
+            <div><img alt="" src="i/icon-1.png"></div>
+            <h3 >What do you want to remember?</h3>
+            <div>
+                <p>Your memory remembers events in your life that standout,
+                 we built a huge library of whacky GIF’s for you to associate
+                  them to a memory card.</p>
+            </div>
+            <a href="#">View How This Works in Action</a>
+        </div>
+    </li>
+    <li>
+        <div>
+            <div><img alt="" src="i/icon-2.png"></div>
+            <h3 >Assocciate a Card to a Whacky GIF</h3>
+            <div>
+                <p>Pick something you want to remember, like a new word from
+                 the dictionary, a list of the greatest army general or
+                  anything else you have in mind.</p>
+            </div>
+            <a href="#">View How This Works in Action</a>
+        </div>
+    </li>
+    <li>
+        <div>
+            <div><img alt="" src="i/icon-3.png"></div>
+            <h3 >Link to Create a Story</h3>
+            <div>
+                <p>Link all the memory cards together to create
+                 a sequence and turn the sequence into a
+                 story that links to each other.</p>
+            </div>
+            <a href="#">View How This Works in Action</a>
+        </div>
+    </li>
+</ul>
+{% endhighlight %}
+
+Следующее правило - каждый элемент должен иметь класс(исключение может составить параграф). Таже разметка, но уже с классами:
+
+{% highlight html %}
+<ul class="gl_list">
+    <li class="gl_item">
+        <div class="action_block">
+            <div class="action_i_w"><img alt="" src="i/icon-1.png" class="action_i"></div>
+            <h3 class="action_title">What do you want to remember?</h3>
+            <div class="action_text">
+                <p>Your memory remembers events in your life that standout,
+                 we built a huge library of whacky GIF’s for you to associate
+                  them to a memory card.</p>
+            </div>
+            <a href="#" class="action_link">View How This Works in Action</a>
+        </div>
+    </li>
+    <li class="gl_item">
+        <div class="action_block">
+            <div class="action_i_w"><img alt="" src="i/icon-2.png" class="action_i"></div>
+            <h3 class="action_title">Assocciate a Card to a Whacky GIF</h3>
+            <div class="action_text">
+                <p>Pick something you want to remember, like a new word from
+                 the dictionary, a list of the greatest army general or
+                  anything else you have in mind.</p>
+            </div>
+            <a href="#" class="action_link">View How This Works in Action</a>
+        </div>
+    </li>
+    <li class="gl_item">
+        <div class="action_block">
+            <div class="action_i_w"><img alt="" src="i/icon-3.png" class="action_i"></div>
+            <h3 class="action_title">Link to Create a Story</h3>
+            <div class="action_text">
+                <p>Link all the memory cards together to create
+                 a sequence and turn the sequence into a
+                 story that links to each other.</p>
+            </div>
+            <a href="#" class="action_link">View How This Works in Action</a>
+        </div>
+    </li>
+</ul>
+{% endhighlight %}
+
+Заметьте, что контейнер(li) имееет абстрактный класс 'gl_item', что позволит в дальнейшем вставлять в него другие блоки. <b>Контейнер</b> в данном случае отвечает за сетку(вы можете сделать на float,inline-block,flexbox). <b>Блок</b> - "action_block". Вы можете в дальнейшем вставить его в другой контейнер. Он содержит <b>элементы</b> - картинку, название, текст и ссылку. Заметьте, что картинка имеет обертку(wrapper), это может уберечь вас от различных проблем. Оригинальная методология БЭМ предусматривает длинные и сложные названия классов, которые могут запутать. Все названия классов мы пишем через '_'.
+
+Мы разобрали, что такое контейнер, блок, элемент. Давайте поговорим о модификаторах. Допустим блоки имели бы разное выравнивание картинок:
+
+<img alt="" src="../../../../i/kbem-lesson-2.jpg">
+
+Картинки будут выравниваться за счет свойства text-align у обертки. Пожтому к обертке мы добавим разные <b>классы-модификаторы</b>. Структура для картинок без всего лишнего:
+
+{% highlight html %}
+<div class="action_i_w start_mod"><img alt="" src="i/icon-1.png" class="action_i"></div>
+<div class="action_i_w middle_mod"><img alt="" src="i/icon-2.png" class="action_i"></div>
+<div class="action_i_w end_mod"><img alt="" src="i/icon-3.png" class="action_i"></div>
+{% endhighlight %}
+
+Ну и css будет следующим:
+
+scss:
+{% highlight scss %}
+.action_i_w {
+  &.start_mod {
+    text-align: left;
+  }
+  &.middle_mod {
+    text-align: center;
+  }
+  &.end_mod {
+    text-align: right;
+  }
+}
+.action_i {
+  display: inline-block;
+}
+{% endhighlight %}
+css:
+{% highlight css %}
+.action_i_w.start_mod {
+  text-align: left;
+}
+.action_i_w.middle_mod {
+  text-align: center;
+}
+.action_i_w.end_mod {
+  text-align: right;
+}
+
+.action_i {
+  display: inline-block;
+}
+{% endhighlight %}
+
+Советы по набитым шишкам:
+
+* Используйте один основной класс для тега, изменения оформляйте через модификаторы
+* Не используйте презентационные классы("color_red","left","fz34")
+* Не делайте слишком длинных классов и коротких-непонятных("actions_list_item_block_link_bottom","a_l_i_link")
+* Повторяющиеся свойства оформляйте с помощью @extend(и его аналогах в разных препроцессорах), вместо дополнительных классов
+
+На этом все.

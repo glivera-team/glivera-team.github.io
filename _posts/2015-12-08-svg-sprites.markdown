@@ -30,7 +30,7 @@ autor:  Гатилин Максим
 └──dist                        # здесь получаем готовый проект
 {% endhighlight %}
 
-Подробнее о том как работает наша сборка - можете почитать [в репозитории](https://github.com/gatilin222/supervisor_template).
+Подробнее о том как работает наша сборка - можете почитать [в репозитории](https://github.com/glivera-team/glivera-team-template).
 Для создания спрайта используем gulp, а именно:
 
 * <b>gulp-svg-sprites</b>  - создание спрайта
@@ -163,7 +163,7 @@ gulp.task('svgSpriteSass', function () {
 				},
 				cssFile: '../sass/_svg_sprite.scss',
 				templates: {
-					css: require("fs").readFileSync(assetsDir + 'sass/_sprite-template.scss', "utf-8")
+					css: require("fs").readFileSync(assetsDir + 'sass/templates/_sprite-template.scss', "utf-8")
 				}
 			}
 		))

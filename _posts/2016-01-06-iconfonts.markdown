@@ -28,7 +28,7 @@ gulpfile.js
 gulp.task('iconfont', function(){
   gulp.src(['assets/i/icons/*.svg'])
      .pipe(iconfontCss({
-        path: 'assets/sass/_icons_template.scss',
+        path: 'assets/sass/templates/_icons_template.scss',
         fontName: fontName,
         targetPath: '../../sass/_icons.scss',
         fontPath: '../fonts/icons/'
@@ -46,9 +46,9 @@ gulp.src(['assets/i/icons/*.svg'])
 Берем все иконки(путь указывается относительно gulpfile)
 Далее внутри таска прописываем шаблон для scss-файла, с помощью которого будут использоваться иконки:
 {% highlight javascript %}
-path: 'assets/sass/_icons_template.scss'
+path: 'assets/sass/templates/_icons_template.scss'
 {% endhighlight %}
-Шаблон доступен по ссылке [https://github.com/glivera-team/glivera-team-template/blob/master/assets/sass/_icons_template.scss](https://github.com/glivera-team/glivera-team-template/blob/master/assets/sass/_icons_template.scss)
+Шаблон доступен по ссылке [https://github.com/glivera-team/glivera-team-template/blob/master/assets/sass/templates/_icons_template.scss](https://github.com/glivera-team/glivera-team-template/blob/master/assets/sass/templates/_icons_template.scss)
 
 fontName: fontName - название шрифта, которое объявлено ранее.
 
