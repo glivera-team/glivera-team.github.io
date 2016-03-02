@@ -1,0 +1,86 @@
+---
+layout: post
+title:  "Веб-шрифты 2016. Подключаем, используем."
+date:   2016-03-02 08:24:00 +0300
+categories: fonts
+autor:  Гатилин Максим
+---
+Привет, разработчик!
+
+Раньше для того, чтобы подключить сторонний шрифт на сайт использовалась директива @font-face с ссылкой на шрифт в нескольких форматах(eot, svg, ttf, woff и т.д.). В 2015 году появилась возможность использовать кеширование шрифта в localstorage, а также отпала необходимость использовать много разных форматов. О том, как наименее трудозатратно и удобно использовать веб-шрифты в 2016 году и пойдет речь в этой заметке.
+ 
+Итак, суть метода:
+
+1. Берем шрифты в формате woff или woff2
+2. Конвертируем шрифты в base64 в автоматическом режиме(gulp)
+3. Асинхронно загружаем шрифты на страницу через js-функцию.
+4. При первой загрузке страницы - шрифты загружаются в первый раз, что вызовет небольщое "моргание"
+5. При последующих загрузках шрифт будет приходить с localstorage, "морганий не будет"
+
+## Конвертация
+
+Для конвертации мы будем использовать gulp-плагин <a target="_blank" href="https://www.npmjs.com/package/gulp-cssfont64">gulp-cssfont64</a>. Если вы не работали с gulp'ом рекомедую статью на нашем блоге <a target="_blank" href="http://glivera-team.github.io/sass/2016/01/07/gulp.html">Начинаем работать с gulp.js</a>. 
+Устанавливаем плагин, прописываем в gulpfile зависимость и таск:
+
+gulpfile.js
+{% highlight javascript %}
+cssfont64 = require('gulp-cssfont64');
+
+gulp.task('fontsConvert', function () {
+	return gulp.src([assetsDir + 'fonts/*.woff', assetsDir + 'fonts/*.woff2'])
+		.pipe(cssfont64())
+		.pipe(gulp.dest(outputDir + 'styles/'))
+		.pipe(browserSync.stream());
+});
+{% endhighlight %}
+
+В таске мы берем woff и woff2 шрифты, остальные не нужны. Т.е. для каждого шрифта мы берем один ИЛИ другой формат. Браузеры, которые не поддерживают woff отрисуют шрифты по умолчанию, о них позже.
+
+Добавим watcher, чтобы шрифты конвертировались автоматически:
+{% highlight javascript %}
+gulp.task('watch', function () {
+	gulp.watch(assetsDir + 'fonts/**/*', ['fontsConvert']);
+});
+{% endhighlight %}
+
+Убедитесь, что ваши шрифты сконвертированы. Например из файла 'assets/fonts/roboto-blackitalic.woff' получился 'dist/styles/roboto-blackitalic.css'.
+
+## Асинхронная загрузка
+
+Для загрузки шрифтов будем использовать отдельный js-файл. Его нужно будет подключить до загрузки стилей:
+{% highlight html %}
+    <script src="js/font-loader.js"></script>
+	<link rel="stylesheet" media="all" href="styles/main_global.css">
+{% endhighlight %}
+	
+Содержимое файла font-loader.js
+{% highlight javascript %}
+function loadFont(a,b,c,d){function e(){if(!window.FontFace)return!1;var a=new FontFace("t",'url("data:application/font-woff2,") format("woff2")',{}),b=a.load();try{b.then(null,function(){})}catch(c){}return"loading"===a.status}var f=navigator.userAgent,g=!window.addEventListener||f.match(/(Android (2|3|4.0|4.1|4.2|4.3))|(Opera (Mini|Mobi))/)&&!f.match(/Chrome/);if(!g){var h={};try{h=localStorage||{}}catch(i){}var j="x-font-"+a,k=j+"url",l=j+"css",m=h[k],n=h[l],o=document.createElement("style");if(o.rel="stylesheet",document.head.appendChild(o),!n||m!==b&&m!==c){var p=c&&e()?c:b,q=new XMLHttpRequest;q.open("GET",p),q.onload=function(){q.status>=200&&q.status<400&&(h[k]=p,h[l]=q.responseText,d||(o.textContent=q.responseText))},q.send()}else o.textContent=n}}
+
+loadFont('roboto-blackitalic', 'styles/roboto-blackitalic.css');
+{% endhighlight %}
+
+Сначала мы объявляем функцию для загрузки шрифта, а затем вызываем её с аргументами названия шрифта и пути до css-файла. Если вам нужно подключить еще один шрифт - вызывайте еще одну функцию loadFont.
+
+Далее, вы можете в css применять свой шрифт. Если вы используете препроцессор, рекомендуется заносить названия шрифтов в переменные. В моем случае это может выгдядить так:
+{% highlight scss %}
+$main_font:'roboto-blackitalic',sans-serif;
+html {
+	font: normal 10px/1.33 $main_font;
+}
+{% endhighlight %}
+
+Как называть переменные для шрифтов - выбор за вами.
+
+## Тем временем в браузере
+
+При первой загрузке страницы ваш текст немного моргнет. Сначала загрузится дефолтный шрифт, который вы указали в переменной(в нашем случае sans-serif), а затем основной шрифт. В Chrome в вкладке Network отобразится загрузка шрифта:
+
+<img alt="" src="../../../../i/font-lesson-1.jpg">
+
+При перезагрузке страницы в вкладке Network запись о загрузке шрифта пропадет. С чем это связано? При первой загрузке шрифт был помещен в localStorage, и теперь браузер берет его оттуда, не делая лишний запрос. 
+
+<img alt="" src="../../../../i/font-lesson-2.jpg">
+
+На этом все.
+
