@@ -1,6 +1,8 @@
 ---
 layout: post
 title:  "Веб-шрифты 2016. Подключаем, используем."
+excerpt: "Статья о том, как мы в glivera-team используем веб-шрифты"
+keywords: "Шрифты, верстка, frontend, типографика, html, css , javascript"
 date:   2016-03-02 08:24:00 +0300
 categories: fonts
 autor:  Гатилин Максим

@@ -10,7 +10,7 @@ title: Блог команды glivera-team
 email: gatilin222@gmail.com
 description: Блог команды glivera-team
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "http://yourdomain.com" # the base hostname & protocol for your site
+url: "http://glivera-team.github.io" # the base hostname & protocol for your site
 twitter_username: jekyllrb
 github_username:  jekyll
 
