@@ -1,6 +1,8 @@
 ---
 layout: post
 title:  "Создание стайлгайда с помощью sc5"
+excerpt: "Создание стайлгайда с помощью sc5"
+keywords: "верстка, frontend, дизайн,sc5,стайлгайд,styleguide, html, css , javascript"
 date:   2016-03-11 08:24:00 +0300
 categories: structure
 autor:  Гатилин Максим
