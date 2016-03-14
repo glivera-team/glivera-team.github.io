@@ -191,5 +191,10 @@ pre {
   margin:10px 0 0;
 }
 .social_item {
+  padding:10px 0 0;
   list-style: none;
+
+  &:first-child {
+    padding: 0;
+  }
 }
