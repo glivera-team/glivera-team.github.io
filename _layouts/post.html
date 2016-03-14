@@ -15,9 +15,11 @@ layout: default
   <div class="autor_name">Материал подготовил:  {{ page.autor }}</div>
 
 </article>
-<script type="text/javascript">
-  document.write(VK.Share.button());
-</script>
+<ul class="social_list">
+  <li class="social_item"><script type="text/javascript">
+    document.write(VK.Share.button({text:'Поделиться'}));
+  </script></li>
+</ul>
 <div id="disqus_thread"></div>
 <script>
   /**
