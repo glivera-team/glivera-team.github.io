@@ -194,6 +194,10 @@ pre {
   padding:10px 0 0;
   list-style: none;
 
+  &.facebook_mod {
+    padding:6px 0 0;
+  }
+
   &:first-child {
     padding: 0;
   }
