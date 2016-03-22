@@ -47,7 +47,8 @@ cd bower_components/backstopjs
 npm install
 {% endhighlight %}
 
-##Тестовый запуск
+## Тестовый запуск
+
 Теперь все команды запускаются из директории <b>bower_components/backstopjs</b>. Для начала создадим конфиг для BackstopJS. Для этого служит следующая команда:
 {% highlight html %}
 gulp genConfig
