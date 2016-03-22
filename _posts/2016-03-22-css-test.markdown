@@ -3,7 +3,7 @@ layout: post
 title:  "Автоматическое тестирование верстки с BackstopJS"
 excerpt: "Автоматическое тестирование верстки с BackstopJS"
 keywords: "верстка, frontend, BackstopJS, тестирование, html, css , javascript"
-date:   2016-03-16 08:24:00 +0300
+date:   2016-03-22 08:24:00 +0300
 categories: structure
 autor:  Гатилин Максим
 ---
