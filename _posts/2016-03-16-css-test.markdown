@@ -1,0 +1,397 @@
+---
+layout: post
+title:  "Автоматическое тестирование верстки с BackstopJS"
+excerpt: "Автоматическое тестирование верстки с BackstopJS"
+keywords: "верстка, frontend, BackstopJS, тестирование, html, css , javascript"
+date:   2016-03-16 08:24:00 +0300
+categories: structure
+autor:  Гатилин Максим
+---
+Привет, разработчик!
+
+Частая проблема верстальщика - поправил стили в одном месте, а изменилось в нескольких местах. И верстальщик замечает это слишком поздно. В данном посте я расскажу о регрессивном тестировании. Суть метода заключается в том, что вы делаете скриншоты сайта(не вручную конечно), а затем после внесения каких-либо правок вы делаете новые скриншоты и сравниваете их с предыдущими. Если есть какие-либо отличия - тесты об этом говорят и показывают. Можно делать скриншоты как сайтов, так и отдельных блоков.
+
+Для данного метода нам потребуется:
+
+* <b>Gulp</b> - система сборки. Если с gulp'ом вы знакомо слабо, на нашем блоге есть статья <a href="http://glivera-team.github.io/sass/2016/01/07/gulp.html" target="_blank">"Начинаем работать с gulp"</a>.
+* <b>PhantomJS</b> - это все плюшки WebKit из консоли с управлением на JS и поддержкой различных стандартов и технологий: DOM, CSS, JSON, Canvas и SVG. Технически - это обычный браузер, но без интерфейса пользователя
+* <b>CasperJS</b> - инструмент для написания сценариев навигации и для тестирования.
+* <b>BackstopJS</b> библиотека позволяет автоматизировать перечисленные выше задачи.
+
+## Установка
+Устанавливаем gulp:
+{% highlight html %}
+npm install gulp -g
+{% endhighlight %}
+В корне вашего проекта инициализируем npm:
+{% highlight html %}
+npm init
+{% endhighlight %}
+Устанавливаем PhantomJS:
+{% highlight html %}
+npm install phantomjs
+{% endhighlight %}
+CasperJS:
+{% highlight html %}
+npm install -g casperjs
+{% endhighlight %}
+Для работы CasperJS также требуется установка <a href="https://www.python.org/downloads/release/python-2710/" target="_blank">python</a>, версии не ниже 2.7.
+
+Устанавливаем BackstopJS с помощью bower:
+{% highlight html %}
+bower install backstopjs
+{% endhighlight %}
+Устанавливаем npm-зависимости backstopjs:
+{% highlight html %}
+cd bower_components/backstopjs
+npm install
+{% endhighlight %}
+
+##Тестовый запуск
+Теперь все команды запускаются из директории <b>bower_components/backstopjs</b>. Для начала создадим конфиг для BackstopJS. Для этого служит следующая команда:
+{% highlight html %}
+gulp genConfig
+{% endhighlight %}
+Команда создает json файл в корне вашего проекта - backstop.json со следующим содержимым:
+{% highlight json %}
+{
+  "viewports": [
+    {
+      "name": "phone",
+      "width": 320,
+      "height": 480
+    },
+    {
+      "name": "tablet_v",
+      "width": 568,
+      "height": 1024
+    },
+    {
+      "name": "tablet_h",
+      "width": 1024,
+      "height": 768
+    }
+  ],
+  "scenarios": [
+    {
+      "label": "My Homepage",
+      "url": "http://getbootstrap.com",
+      "hideSelectors": [],
+      "removeSelectors": [
+        "#carbonads-container"
+      ],
+      "selectors": [
+        "header",
+        "main",
+        "body .bs-docs-featurette:nth-of-type(1)",
+        "body .bs-docs-featurette:nth-of-type(2)",
+        "footer",
+        "body"
+      ],
+      "readyEvent": null,
+      "delay": 500,
+      "misMatchThreshold" : 0.1,
+      "onBeforeScript": "onBefore.js",
+      "onReadyScript": "onReady.js"
+    }
+  ],
+  "paths": {
+    "bitmaps_reference": "../../backstop_data/bitmaps_reference",
+    "bitmaps_test": "../../backstop_data/bitmaps_test",
+    "compare_data": "../../backstop_data/bitmaps_test/compare.json",
+    "casper_scripts": "../../backstop_data/casper_scripts"
+  },
+  "engine": "phantomjs",
+  "report": ["CLI", "browser"],
+  "cliExitOnFail": false,
+  "casperFlags": [],
+  "debug": false,
+  "port": 3001
+}
+{% endhighlight %}
+
+Мы вернемся к этому файлу позже, а пока обратите внимание на следующий параметр:
+{% highlight html %}
+"port": 3001
+{% endhighlight %}
+Это номер порта, на котором будет расположена наша страница со сравнением скриншотов. Если вы используете на проекте browsersync, советую изменить номер порта(чтобы проектный browsersync не конфликтовал с browsersync библиотеки):
+{% highlight html %}
+"port": 3002
+{% endhighlight %}
+
+Далее запустим тестовый сервер(также из папки bower_components/backstopjs):
+{% highlight html %}
+gulp start
+{% endhighlight %}
+Эта команда запускает тестовый сервер. В браузере открываем страницу <a href="http://localhost:3002/compare" target="_blank">http://localhost:3002/compare</a>.
+
+Вы должны увидеть примерно следующее:
+<img alt="" src="../../../../i/backstop-1.jpg">
+Пока мы не совершили ни одного теста.
+
+## Делаем исходные скриншоты
+Для начала в конфиге опишем, на каких разрешениях мы хотим получить снимки.
+
+backstop.json:
+{% highlight json %}
+{
+"viewports": [
+    {
+      "name": "phone",
+      "width": 320,
+      "height": 480
+    },
+    {
+      "name": "tablet_v",
+      "width": 568,
+      "height": 1024
+    },
+    {
+      "name": "tablet_h",
+      "width": 1024,
+      "height": 768
+    }
+  ]
+}
+{% endhighlight %}
+Добавим еще одно разрешение - для десктопа:
+{% highlight json %}
+{
+"viewports": [
+    {
+      "name": "phone",
+      "width": 320,
+      "height": 480
+    },
+    {
+      "name": "tablet_v",
+      "width": 568,
+      "height": 1024
+    },
+    {
+      "name": "tablet_h",
+      "width": 1024,
+      "height": 768
+    },
+    {
+      "name": "desctop",
+      "width": 1280,
+      "height": 1024
+    }
+  ]
+}
+{% endhighlight %}
+
+Также опишем скриншоты каких блоков нам нужны.
+{% highlight json %}
+{
+"selectors": [
+        ".wrapper",
+		".header"
+    ]
+}
+{% endhighlight %}
+
+Опишем блоки, которые мы не хотим видеть в скриншотах, например виджет от browsersync:
+{% highlight json %}
+{
+"removeSelectors": [
+				".widget_wrap",
+				"#__bs_notify__"
+			]
+}			
+{% endhighlight %}			
+
+Также впишем адрес страницы в параметр url(в моем случае это http://localhost:1337). Итоговый backstop.json:
+{% highlight json %}
+{
+	"viewports": [
+		{
+			"name": "phone",
+			"width": 320,
+			"height": 480
+		},
+		{
+			"name": "tablet_v",
+			"width": 568,
+			"height": 1024
+		},
+		{
+			"name": "tablet_h",
+			"width": 1024,
+			"height": 768
+		}
+	],
+	"scenarios": [
+		{
+			"label": "My Homepage",
+			"url": "http://localhost:1337",
+			"hideSelectors": [],
+			"removeSelectors": [
+				".widget_wrap",
+				"#__bs_notify__"
+			],
+			"selectors": [
+				".wrapper",
+				".header"
+			],
+			"readyEvent": null,
+			"delay": 500,
+			"misMatchThreshold": 0.1,
+			"onBeforeScript": "onBefore.js",
+			"onReadyScript": "onReady.js"
+		}
+	],
+	"paths": {
+		"bitmaps_reference": "../../backstop_data/bitmaps_reference",
+		"bitmaps_test": "../../backstop_data/bitmaps_test",
+		"compare_data": "../../backstop_data/bitmaps_test/compare.json",
+		"casper_scripts": "../../backstop_data/casper_scripts"
+	},
+	"engine": "phantomjs",
+	"report": [
+		"CLI",
+		"browser"
+	],
+	"cliExitOnFail": false,
+	"casperFlags": [],
+	"debug": false,
+	"port": 3002
+}
+
+{% endhighlight %}
+
+Далее запускаем команду для составления начальных скриншотов:
+
+{% highlight html %}
+gulp reference
+{% endhighlight %}
+
+После её отработки в корне вашего проекта в папке backstop_data/bitmaps_reference появятся картинки. Эти картинки - наши исходники, с которыми мы в дальнейшем будем сравнивать новые скриншоты.
+
+## Тестирование
+
+Для запуска тестов запускаем команду:
+{% highlight html %}
+gulp test
+{% endhighlight %}
+
+Автоматически откроется окно <a href="http://localhost:3002/compare/">http://localhost:3002/compare/</a>(если нет- открывайте вручную) на котором отобразятся результаты тестов. Так как мы еще ничего не изменили, все тесты пройдут успешно:
+<img alt="" src="../../../../i/backstop-2.jpg">
+Ниже в таблице мы видим исходный скриншот, новый скриншот и разницу между ними наглядно. Обратите внимание на параметр misMatchPercentage - это процент несоответствия скриншотов.
+<img alt="" src="../../../../i/backstop-3.jpg">
+Теперь давайте изменим что-нибудь в проекте, например я изменю цвет заголовка и его отступ.
+
+Было:
+{% highlight css %}
+.promo_title {
+	font-size: 7.1rem;
+	color:greenyellow;
+	padding:4rem;
+}
+{% endhighlight %}
+Стало:
+{% highlight css %}
+.promo_title {
+	font-size: 7.1rem;
+	color:black;
+	padding:5rem;
+}
+{% endhighlight %}
+Теперь снова запускаем тест:
+{% highlight html %}
+gulp test
+{% endhighlight %}
+Видим, что некоторые тесты не прошли:
+<img alt="" src="../../../../i/backstop-4.jpg">
+Ниже показаны результаты упавших тестов:
+<img alt="" src="../../../../i/backstop-5.jpg">
+misMatchPercentage(процент несоответствия скриншотов) - теперь довольно большой, поэтому тесты и упали. Настроить порог несоответсвия можно в конфиге backstop.json:
+{% highlight html %}
+{
+	"misMatchThreshold": 0.1
+}
+{% endhighlight %}
+
+## Взаимодействие со страницей
+Если перед тем, как сделать скриншот вам нужно произвести какие-либо действия со страницей на помощь приходит CasperJS. Подробно как работать с ним вы можете посмотреть в <a href="http://docs.casperjs.org/en/latest/" target="_blank">документации</a>. Например, я хочу открывать всплывающее окно с каталогом, и после этого делать скриншот. В папке backstop_data/casper_scripts создаем скрипт открытия и ожидания в 1 секунду.
+
+openCatalog.js:
+{% highlight javascript %}
+module.exports = function(casper, scenario, vp) {
+	casper.click( '#catalog_show' );
+	casper.wait(1000);
+};
+{% endhighlight %}
+В конфиге в сценарии добавляем скрипт:
+{% highlight json %}
+{
+	"onReadyScript": "openCatalog.js"
+}
+{% endhighlight %}
+Теперь перед тем как сделать скриншот будет открываться каталог.
+
+## Делаем скриншот в нужное время
+Если вы хотите отсрочить время скриншота можно сделать это с помощью параметра delay в конфиге(по умолчанию 500). Или вы можете указать в вашем js-файле, когда сделать скриншот. Например так:
+{% highlight javascript %}
+$(window).on('load', function () {
+	console.log('page_loaded');
+});
+{% endhighlight %}
+А в конфиге изменить параметр "readyEvent":
+{% highlight json %}
+{
+	"readyEvent": "page_loaded"
+}
+{% endhighlight %}
+
+## Запускаем таски из корня проекта
+До этого мы запускали gulp-задачи из папки bower_components/backstopjs. Для того, чтобы запускать таски из корня можно использовать плагин gulp-chug.
+Устанавливаем:
+{% highlight html %}
+npm install gulp-chug --save-dev
+{% endhighlight %}
+Прописываем зависимость:
+var chug = require('gulp-chug');
+Пишем таск:
+{% highlight javascript %}
+//gulp chug (BackstopJS: $ gulp reference)
+gulp.task( 'reference', function () {
+    gulp.src( './bower_components/backstopjs/gulpfile.js' )
+        .pipe( chug({
+        tasks:  [ 'reference' ]
+    }));
+});
+{% endhighlight %}
+Итого в gulpfile имеем следующее:
+{% highlight javascript %}
+var gulp = require('gulp'),
+	chug = require('gulp-chug');
+
+gulp.task( 'genConfig', function () {
+	gulp.src( './bower_components/backstopjs/gulpfile.js' )
+		.pipe( chug({
+			tasks:  [ 'genConfig' ]
+		}));
+});
+
+gulp.task( 'reference', function () {
+	gulp.src( './bower_components/backstopjs/gulpfile.js' )
+		.pipe( chug({
+			tasks:  [ 'reference' ]
+		}));
+});
+
+gulp.task( 'test', function () {
+	gulp.src( './bower_components/backstopjs/gulpfile.js' )
+		.pipe( chug({
+			tasks:  [ 'test' ]
+		}));
+});
+{% endhighlight %}
+Теперь можно запускать команды из корня проекта.
+
+## Шрифты
+У phantomJS на момент написания публикации есть проблема с шрифтами в современном формате woff, woff2. Для того, чтобы все корректно работало, нужно подключать более старые форматы.
+
+На этом все.
