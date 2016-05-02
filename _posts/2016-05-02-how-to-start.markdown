@@ -44,6 +44,7 @@ HTML и CSS - это то, что верстальщик пишет каждый
 Полезные ссылки:
 
 * <a href="https://habrahabr.ru/post/272649/" target="_blank">Фотошоп для верстальщика(хабр)</a>
+* <a href="https://www.youtube.com/watch?v=9lzJvnJpXL8" target="_blank">С ножом против паровоза, В. Макеев</a>
 * <a href="http://xiper.net/learn/photoshop/" target="_blank">Фотошоп для кодера(цикл статей)</a>
 * <a href="https://www.youtube.com/watch?v=KeNaFwpqnaE" target="_blank">Фотошоп для HTML верстальщика(видео)</a>
 
