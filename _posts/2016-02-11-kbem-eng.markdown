@@ -1,0 +1,171 @@
+---
+layout: post
+title:  "CBEM - Container, Block, Element, Modifier"
+date:   2016-02-11 08:24:00 +0300
+categories: structure
+autor:  Gatilin Maxim
+---
+
+BEM is a frontend methodology from Yandex. You can find a lot of information about it in the web. Many companies are implements it in their projects, and we were no exception. I will tell you how we use BEM in this article.
+ 
+The idea is to add "Container" concept. "Container" is a storage for the blocks. It's may be no sense between container and block.In other words, block didn't know in which container we put it, we can move block from one container to another.
+
+## Show code!
+
+Let's grab some piece of PSD template and create structure for it:
+
+<img alt="" src="../../../../i/kbem-lesson-1.jpg">
+
+We will't code page markup, focus on this section.
+First of all we need to create tags. We see unordered list here:
+
+{% highlight html %}
+<ul>
+    <li></li>
+    <li></li>
+    <li></li>
+</ul>
+{% endhighlight %}
+li is a <b>container</b>, we will paste <b>block</b> into it. Let's go ahead and write structure for block:
+{% highlight html %}
+<ul>
+    <li>
+        <div>
+            <div><img alt="" src="i/icon-1.png"></div>
+            <h3 >What do you want to remember?</h3>
+            <div>
+                <p>Your memory remembers events in your life that standout,
+                 we built a huge library of whacky GIF’s for you to associate
+                  them to a memory card.</p>
+            </div>
+            <a href="#">View How This Works in Action</a>
+        </div>
+    </li>
+    <li>
+        <div>
+            <div><img alt="" src="i/icon-2.png"></div>
+            <h3 >Assocciate a Card to a Whacky GIF</h3>
+            <div>
+                <p>Pick something you want to remember, like a new word from
+                 the dictionary, a list of the greatest army general or
+                  anything else you have in mind.</p>
+            </div>
+            <a href="#">View How This Works in Action</a>
+        </div>
+    </li>
+    <li>
+        <div>
+            <div><img alt="" src="i/icon-3.png"></div>
+            <h3 >Link to Create a Story</h3>
+            <div>
+                <p>Link all the memory cards together to create
+                 a sequence and turn the sequence into a
+                 story that links to each other.</p>
+            </div>
+            <a href="#">View How This Works in Action</a>
+        </div>
+    </li>
+</ul>
+{% endhighlight %}
+
+Next rule - every tag should have class(except CMS-content, we will style it via tags). Add classes to your structure:
+
+{% highlight html %}
+<ul class="gl_list">
+    <li class="gl_item">
+        <div class="action_block">
+            <div class="action_i_w"><img alt="" src="i/icon-1.png" class="action_i"></div>
+            <h3 class="action_title">What do you want to remember?</h3>
+            <div class="action_text">
+                <p>Your memory remembers events in your life that standout,
+                 we built a huge library of whacky GIF’s for you to associate
+                  them to a memory card.</p>
+            </div>
+            <a href="#" class="action_link">View How This Works in Action</a>
+        </div>
+    </li>
+    <li class="gl_item">
+        <div class="action_block">
+            <div class="action_i_w"><img alt="" src="i/icon-2.png" class="action_i"></div>
+            <h3 class="action_title">Assocciate a Card to a Whacky GIF</h3>
+            <div class="action_text">
+                <p>Pick something you want to remember, like a new word from
+                 the dictionary, a list of the greatest army general or
+                  anything else you have in mind.</p>
+            </div>
+            <a href="#" class="action_link">View How This Works in Action</a>
+        </div>
+    </li>
+    <li class="gl_item">
+        <div class="action_block">
+            <div class="action_i_w"><img alt="" src="i/icon-3.png" class="action_i"></div>
+            <h3 class="action_title">Link to Create a Story</h3>
+            <div class="action_text">
+                <p>Link all the memory cards together to create
+                 a sequence and turn the sequence into a
+                 story that links to each other.</p>
+            </div>
+            <a href="#" class="action_link">View How This Works in Action</a>
+        </div>
+    </li>
+</ul>
+{% endhighlight %}
+
+Note, container(li) have abstract class 'gl_item', we can put different blocks into it in future(another articles, news, images). <b>Container</b> used for grid in this case(floats, inline-blocks, flexbox, no matter). <b>Block</b> - "action_block". You can paste it to another container. It have <b>elements</b> - image, title, text and link. Note, image have wrapper, that fact care you from different problems. Original BEM have long и boring class names, which are confusing. We use '_' to separate words in classes.
+
+Now we know about container, block, element. Let's talk about modifiers. Imagine that our blocks have different image alignment:
+
+<img alt="" src="../../../../i/kbem-lesson-2.jpg">
+
+Images will align via text-align css property of wrapper.
+
+{% highlight html %}
+<div class="action_i_w start_mod"><img alt="" src="i/icon-1.png" class="action_i"></div>
+<div class="action_i_w middle_mod"><img alt="" src="i/icon-2.png" class="action_i"></div>
+<div class="action_i_w end_mod"><img alt="" src="i/icon-3.png" class="action_i"></div>
+{% endhighlight %}
+
+Styles for our structure:
+
+scss:
+{% highlight scss %}
+.action_i_w {
+  &.start_mod {
+    text-align: left;
+  }
+  &.middle_mod {
+    text-align: center;
+  }
+  &.end_mod {
+    text-align: right;
+  }
+}
+.action_i {
+  display: inline-block;
+}
+{% endhighlight %}
+css:
+{% highlight css %}
+.action_i_w.start_mod {
+  text-align: left;
+}
+.action_i_w.middle_mod {
+  text-align: center;
+}
+.action_i_w.end_mod {
+  text-align: right;
+}
+
+.action_i {
+  display: inline-block;
+}
+{% endhighlight %}
+
+Experience-based tips:
+
+* Use 1 main class for tag, other classes are modifiers
+* Don't use presentation class names("color_red","left","fz34")
+* Don't use long boring and unclear class names("actions_list_item_block_link_bottom","a_l_i_link")
+* Use preprocessor abilities(@extend,@include and others) for repeating css-properties instead of additional classes
+
+That's all!
