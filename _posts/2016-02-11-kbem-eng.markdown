@@ -16,7 +16,7 @@ Let's grab some piece of PSD template and create structure for it:
 
 <img alt="" src="../../../../i/kbem-lesson-1.jpg">
 
-We will't code page markup, focus on this section.
+We won't code page markup, focus on this section.
 First of all we need to create tags. We see unordered list here:
 
 {% highlight html %}
