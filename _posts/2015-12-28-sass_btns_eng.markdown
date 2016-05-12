@@ -6,7 +6,7 @@ categories: sass
 autor: Gatilin Maxim
 ---
 
-Designers often create different sizes and decorations of site buttons. Some of them can be repeating, some are not. It would be awesome to create system for quickly adding and editing buttons, sass @extend's is the right choice. It's illustration of buttons on typical project:
+Designers often create different sizes and decorations of the site buttons. Some of them can be repeating, some are not. It would be awesome to create system for quickly adding and editing buttons, sass @extend's is the right choice. It's illustration of buttons on typical project:
 ![](https://hsto.org/files/15b/5bb/ed8/15b5bbed80524f0b80a6d075fc5b4294.png)
 HTML for buttons would be constant throughout the entire article:
 {% highlight html %}
@@ -30,7 +30,7 @@ SCSS:
 	font-size: 12px;
 }
 {% endhighlight %}
-We created styles for our main class, now let's create color modifiers(variables used for colors):
+We have created styles for our main class, now let's create color modifiers(variables used for colors):
 {% highlight scss %}
 .about_btn {
 	display: block;
@@ -115,7 +115,7 @@ Then we should add block styles:
 	margin: 20px auto;
 }
 {% endhighlight %}
-Now we have this in our stylesheet:
+Now we have this in the stylesheet:
 {% highlight scss %}
 .about_btn {
 	display: block;
@@ -188,7 +188,7 @@ Now we have this in our stylesheet:
 {% endhighlight %}
 Then we met new button on another page:
 ![](https://hsto.org/files/1da/3e5/814/1da3e5814b37466694d683519209233d.png)
-We have the same decor, but another dimensions and font-size. We have two ways now:
+It has the same decor, but another dimensions and font-size. We have two ways now:
 
 1. We can continue to copy styles for different buttons and add unique classes
 2. We can create special classes for buttons styles and add it to our tags
