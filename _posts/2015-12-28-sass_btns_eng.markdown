@@ -6,7 +6,7 @@ categories: sass
 autor: Gatilin Maxim
 ---
 
-Designers often create different sizes and decorations of site buttons. Some of them can be repeating, some are not. It would be awesome to create system for quickly adding and editing buttons, sass @extend's is the right choice. It's illustration of buttons on conventional project:
+Designers often create different sizes and decorations of site buttons. Some of them can be repeating, some are not. It would be awesome to create system for quickly adding and editing buttons, sass @extend's is the right choice. It's illustration of buttons on typical project:
 ![](https://hsto.org/files/15b/5bb/ed8/15b5bbed80524f0b80a6d075fc5b4294.png)
 HTML for buttons would be constant throughout the entire article:
 {% highlight html %}

@@ -6,7 +6,7 @@ categories: structure
 autor:  Gatilin Maxim
 ---
 
-BEM is a frontend methodology from Yandex. You can find a lot of information about it in the web. Many companies are implements it in their projects, and we were no exception. I will tell you how we use BEM in this article.
+BEM is a frontend methodology from Yandex. You can find a lot of information about it in the web. Many companies are implements it in their projects, and we are no exception. I will tell you how we use BEM in this article.
  
 The idea is to add "Container" concept. "Container" is a storage for the blocks. It's may be no sense between container and block.In other words, block didn't know in which container we put it, we can move block from one container to another.
 
@@ -111,13 +111,13 @@ Next rule - every tag should have class(except CMS-content, we will style it via
 </ul>
 {% endhighlight %}
 
-Note, container(li) have abstract class 'gl_item', we can put different blocks into it in future(another articles, news, images). <b>Container</b> used for grid in this case(floats, inline-blocks, flexbox, no matter). <b>Block</b> - "action_block". You can paste it to another container. It have <b>elements</b> - image, title, text and link. Note, image have wrapper, that fact care you from different problems. Original BEM have long и boring class names, which are confusing. We use '_' to separate words in classes.
+Note, container(li) have abstract class 'gl_item', we can put different blocks into it in the future(another articles, news, images). <b>Container</b> is using for grid in this case(floats, inline-blocks, flexbox, no matter). <b>Block</b> - "action_block". You can paste it to another container. It have <b>elements</b> - image, title, text and link. Note, image have wrapper, that fact cares you from different problems. Original BEM have long и boring class names, which are confusing. We use '_' to separate words in classes.
 
 Now we know about container, block, element. Let's talk about modifiers. Imagine that our blocks have different image alignment:
 
 <img alt="" src="../../../../i/kbem-lesson-2.jpg">
 
-Images will align via text-align css property of wrapper.
+Images will be aligned by text-align css property of wrapper.
 
 {% highlight html %}
 <div class="action_i_w start_mod"><img alt="" src="i/icon-1.png" class="action_i"></div>
