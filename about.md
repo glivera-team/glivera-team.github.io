@@ -1,6 +1,7 @@
 ---
 layout: page
 title: О нас
+lang: ru
 permalink: /about/
 ---
 

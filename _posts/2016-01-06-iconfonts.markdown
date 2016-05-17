@@ -3,6 +3,7 @@ layout: post
 title:  "Иконочные шрифты"
 date:   2016-01-06 08:24:00 +0300
 categories: svg
+lang: ru
 autor:  Гатилин Максим
 ---
 Привет, разработчик!

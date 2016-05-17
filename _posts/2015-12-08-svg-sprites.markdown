@@ -3,6 +3,7 @@ layout: post
 title:  "Как мы используем SVG-спрайты"
 date:   2015-12-08 08:24:00 +0300
 categories: svg
+lang: ru
 autor:  Гатилин Максим
 ---
 Привет, разработчик!

@@ -5,6 +5,7 @@ excerpt: "Статья о том, как мы в glivera-team используе
 keywords: "Шрифты, верстка, frontend, типографика, html, css , javascript"
 date:   2016-03-02 08:24:00 +0300
 categories: fonts
+lang: ru
 autor:  Гатилин Максим
 ---
 Привет, разработчик!

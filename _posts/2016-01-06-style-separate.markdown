@@ -3,6 +3,7 @@ layout: post
 title:  "Разбиение стилей с помощью sass"
 date:   2016-01-06 08:24:00 +0300
 categories: sass
+lang: ru
 autor:  Гатилин Максим
 ---
 Привет, разработчик!

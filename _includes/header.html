@@ -1,20 +1,37 @@
 <header class="site-header">
 
-  <div class="wrapper">
+    <div class="wrapper">
 
-    <a class="site-title" href="{{ site.baseurl }}/">{{ site.title }}</a>
+        {% if page.lang contains 'ru' %}
+        <a class="site-title" href="{{ site.baseurl }}/">{{site.title}}</a>
+        {% endif %}
+        {% if page.lang contains 'eng' %}
+        <a class="site-title" href="{{ site.baseurl }}/eng/">{{site.title_eng}}</a>
+        {% endif %}
 
-    <nav class="site-nav">
+        <nav class="site-nav">
 
-      <div class="trigger">
-        {% for my_page in site.pages %}
-          {% if my_page.title %}
-          <a class="page-link" href="{{ my_page.url | prepend: site.baseurl }}">{{ my_page.title }}</a>
-          {% endif %}
-        {% endfor %}
-      </div>
-    </nav>
+            <div class="trigger">
+                {% for my_page in site.pages %}
 
-  </div>
+                <!--english-->
+                {% if page.lang contains 'eng' %}
+                {% if my_page.lang contains 'eng' %}
+                <a class="page-link" href="{{ my_page.url | prepend: site.baseurl }}">{{ my_page.title }}</a>
+                {% endif %}
+                {% endif %}
+
+                <!--russian-->
+                {% if page.lang contains 'ru' %}
+                {% if my_page.lang contains 'ru' %}
+                <a class="page-link" href="{{ my_page.url | prepend: site.baseurl }}">{{ my_page.title }}</a>
+                {% endif %}
+                {% endif %}
+
+                {% endfor %}
+            </div>
+        </nav>
+
+    </div>
 
 </header>

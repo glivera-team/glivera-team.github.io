@@ -3,6 +3,7 @@ layout: post
 title:  "Памятка про .editorconfig"
 date:   2016-02-08 08:24:00 +0300
 categories: tips
+lang: ru
 autor:  Гатилин Максим
 ---
 Привет, разработчик!
