@@ -162,6 +162,9 @@ css:
 }
 {% endhighlight %}
 
+## Bootstrap
+Bootstrap is a css framework developed by Twitter. It's awesome tool for quickly site prototyping. Also you can use it for frontend of admin panels without definite design. But this framework is unsuitable for original design sites. You can read more about it in the <a href="https://evilmartians.com/chronicles/bootstrap-an-intervention" target="_blank">Bootstrap: an intervention</a> article.
+
 Experience-based tips:
 
 * Use 1 main class for tag, other classes are modifiers
