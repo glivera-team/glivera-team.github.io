@@ -2,7 +2,7 @@
 layout: post
 title:  "Site buttons organization with Sass"
 date:   2015-12-28 08:24:00 +0300
-categories: sass
+categories: eng
 autor: Gatilin Maxim
 ---
 
