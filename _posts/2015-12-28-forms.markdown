@@ -153,8 +153,7 @@ if config.type === 'textarea'
 	title:'some title',
 	id:'#some'
 })
-	block
-		a(href="#") some link after input
+    a(href="#") some link after input
 {% endhighlight %}
 В результате получаем следующий html:
 {% highlight html %}
