@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Автоматизация старта верстки"
-excerpt: "Как стать начинающим верстальщиком"
+excerpt: "Как быстро начинать проект, используя bash"
 keywords: "верстка, frontend, html, css, javascript, bash"
 date:   2016-05-18 08:24:00 +0300
 categories: how-to
