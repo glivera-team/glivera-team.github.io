@@ -3,7 +3,7 @@ layout: post
 title:  "Автоматизация старта верстки"
 excerpt: "Как стать начинающим верстальщиком"
 keywords: "верстка, frontend, html, css, javascript, bash"
-date:   2016-05-17 08:24:00 +0300
+date:   2016-05-18 08:24:00 +0300
 categories: how-to
 lang: ru
 autor:  Гатилин Максим
