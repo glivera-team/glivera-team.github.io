@@ -32,7 +32,7 @@ new 49 dota
 ## Установка консоли
 1. Устанавливаем <a href="https://git-scm.com/download/win" target="_blank">git</a>
 2. Скачиваем <a href="http://cmder.net">cmder</a>(mini-версию) и распаковываем в C:/cmder . Запускаем C:/cmder/Cmder.exe от имени администратора, нажать Win + Alt + P для перехода к настройкам.
-3. Переходим в Startup → Tasks. Нажимаем кнопку Add dafault tasks... для добавления задач по умолчанию. В списке Predefined tasks должен быть {Bash::Git bash}.
+3. Переходим в Startup → Tasks. Нажимаем кнопку Add default tasks... для добавления задач по умолчанию. В списке Predefined tasks должен быть {Bash::Git bash}.
 4. В настройках: Startup → выбираем радиокнопку Auto save/restore opened task. Теперь при открытии cmder Вы будете видеть вкладки с теми же консолями, с которыми работали перед закрытием. Сохранить.
 5. В главном окне программы нажать Ctrl + T для создания новой вкладки с консолью и в секции Create new console выбрать {Bash::Git bash} . При необходимости, можно поставить флажок «run as Administrator».
 6. Закрыть открытую изначально вкладку (самая первая, почти наверняка, powershell.exe) кликом средней кнопки мыши или из контекстного меню вкладки.
@@ -77,7 +77,7 @@ createNewProject() {
     gulp
 }
 {% endhighlight %}
-Далее делаем алиас и присваем ему функцию:
+Далее делаем алиас и присваиваем ему функцию:
 {% highlight bash %}
 alias new=createNewProject
 {% endhighlight %}
