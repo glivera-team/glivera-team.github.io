@@ -260,6 +260,12 @@
             font-size: 18px;
         }
     }
+
+    mark {
+        padding:0 5px;
+        background: #272822;
+        color:#ffaa00;
+    }
 }
 
 #disqus_thread {
