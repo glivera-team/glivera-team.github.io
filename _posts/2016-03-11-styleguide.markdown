@@ -81,7 +81,7 @@ gulp.task('styleguide:copyFonts', function () {
 {% highlight javascript %}
 gulp.task('styleguide', ['styleguide:generate', 'styleguide:applystyles','styleguide:copyFonts']);
 
-gulp.task('default', ['otherTasks',styleguide']);
+gulp.task('default', ['otherTasks','styleguide']);
 
 gulp.task('watch', function () {
   gulp.watch(assetsDir + 'sass/**/*.scss', ['sass','styleguide']);
