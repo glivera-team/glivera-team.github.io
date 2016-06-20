@@ -158,7 +158,6 @@ return gulp.src(assetsDir + 'i/icons/*.svg')
 </svg>
 {% endhighlight %}
 Код шаблона для генерирования стилей представлен на <a href="https://github.com/glivera-team/glivera-team-template/blob/master/assets/sass/templates/_sprite_template.scss" target="_blank">гитхабе</a>
-{% endhighlight %}
 Получаем _sprite.scss следующего содержания:
 {% highlight css %}
 .icon {
