@@ -9,6 +9,4 @@ Glivera-team is a development agency. We create frontend part of site and applic
 
 Contacts:
 
-<a href="https://twitter.com/gatilin2222" target="_blank">Gatilin Maxim</a> - blog editor.
-<br/>
 <a href="https://twitter.com/glivera" target="_blank">Andrey Boyko</a> - team lead.
