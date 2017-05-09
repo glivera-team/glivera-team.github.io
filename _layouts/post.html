@@ -23,25 +23,6 @@ layout: default
     <div class="post-content" itemprop="articleBody">
         {{ content }}
     </div>
-    <div class="autor_name">
-        {% if page.lang contains 'eng' %}
-        Post author:
-        {% endif %}
-        {% if page.lang contains 'ru' %}
-        Материал подготовил:
-        {% endif %}
-        {{ page.autor }}
-    </div>
-    <div class="autor_name">
-        {% if page.lang contains 'eng' %}
-        Team lead: Andrey Boyko (glivera)
-        {% endif %}
-        {% if page.lang contains 'ru' %}
-        Куратор: Андрей Бойко (glivera)
-        {% endif %}
-
-    </div>
-
 </article>
 <ul class="social_list">
     <li class="social_item">
