@@ -9,6 +9,4 @@ Glivera-team - команда разработчиков. Специализир
 
 Связаться с нами:
 
-<a href="https://twitter.com/gatilin2222" target="_blank">Максим Гатилин</a> - редактор блога.
-<br/>
 <a href="https://twitter.com/glivera" target="_blank">Андрей Бойко</a> - руководитель команды.
