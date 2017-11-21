@@ -4,7 +4,7 @@ title:  "Начинаем работать с gulp.js"
 date:   2016-01-07 07:24:00 +0300
 categories: sass
 lang: ru
-autor:  Гатилин Максим
+autor:  Andrey Boyko
 ---
 Привет, разработчик!
 

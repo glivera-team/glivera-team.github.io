@@ -4,7 +4,7 @@ title:  "Как мы используем SVG-спрайты(новый спос
 date:   2016-06-13 08:24:00 +0300
 categories: svg
 lang: ru
-autor:  Гатилин Максим
+autor:  Andrey Boyko
 ---
 Привет, разработчик!
 

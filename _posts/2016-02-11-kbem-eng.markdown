@@ -4,7 +4,7 @@ title:  "CBEM - Container, Block, Element, Modifier"
 date:   2016-02-11 08:24:00 +0300
 categories: structure
 lang: eng
-autor:  Gatilin Maxim
+autor:  Andrey Boyko
 ---
 
 BEM is a frontend methodology from Yandex. You can find a lot of information about it on the web. Many companies are implementing it in their projects, and we are no exception. I will tell you how we use BEM in this article.

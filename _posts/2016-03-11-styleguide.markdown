@@ -6,7 +6,7 @@ keywords: "верстка, frontend, дизайн,sc5,стайлгайд,stylegu
 date:   2016-03-11 08:24:00 +0300
 categories: structure
 lang: ru
-autor:  Гатилин Максим
+autor:  Andrey Boyko
 ---
 Привет, разработчик!
 

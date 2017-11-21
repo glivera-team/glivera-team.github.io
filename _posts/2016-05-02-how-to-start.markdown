@@ -6,7 +6,7 @@ keywords: "верстка, frontend, html, css, javascript"
 date:   2016-05-02 08:24:00 +0300
 categories: how-to
 lang: ru
-autor:  Гатилин Максим
+autor:  Andrey Boyko
 ---
 Привет, читатель!
 
