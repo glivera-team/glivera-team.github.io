@@ -74,7 +74,7 @@ function register_scripts() {
 В functions.php добавляем код:
 
 ```php
-function trager_setup() {
+function theme_setup() {
   add_action( 'wp_enqueue_scripts', 'register_styles' );
   add_action( 'wp_enqueue_scripts', 'register_scripts' );
 }
@@ -82,7 +82,7 @@ function trager_setup() {
 add_action( 'after_setup_theme', 'theme_setup' );
 ```
 
-- ``theme_setup` - произвольное имя функции.
+- ``theme_setup`` - произвольное имя функции.
 - ``add_action()`` - регистрирует хук-событие. При регистрации указывается PHP функция, которая сработает в момент события.
 - ``after_setup_theme()`` - вызывается каждый раз при загрузке страницы, сразу после того, как тема инициализирована. Обычно используется для того, чтобы установить базовые возможности темы.
 
