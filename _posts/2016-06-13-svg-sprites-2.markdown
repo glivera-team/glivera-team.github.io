@@ -217,7 +217,7 @@ return gulp.src(assetsDir + 'i/icons/*.svg')
 {% endhighlight %}
 Обратите внимание, что размеры иконок выражены через <b>em</b>, что позволит нам в дальнейшем управлять ими через font-size.<br/>Составляем итоговый таск, и запускаем его:
 {% highlight javascript %}
-gulp.task('svgSprite', ['svgSpriteBuild', 'svgSpriteSass']);
+gulp.task('svgSprite', ['svgSpriteBuild']);
 {% endhighlight %}
 
 ## Подключаем на страницу
