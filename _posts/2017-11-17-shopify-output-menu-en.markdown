@@ -66,6 +66,6 @@ Bonus let's do one more thing, change a bit of our link:
 <a {% if link.active %} class="header_menu_link active_mod" {% endif %} href="{{ link.url }}" class="header_menu_link">{{ link.title }}</a>
 {% endhighlight %}
 
-Here we do a test, if the reference to which we are active, then add to it the corresponding class </b>'active_mod'</b>.
+Here we do a test, if the reference to which we are active, then add to it the corresponding class <b>'active_mod'</b>.
 
 This is all for today.

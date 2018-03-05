@@ -48,11 +48,13 @@ autor:  glivera-team
 
 {% highlight html %}
 <ul class="header_menu_list">
+	{% raw  %}
 	{% for link in linklists.main-menu.links %}
 		<li class="header_menu_item">
 			<a href="{{ link.url }}" class="header_menu_link">{{ link.title }}</a>
 		</li>
 	{% endfor %}
+	{% endraw %}
 </ul>
 {% endhighlight %}
 
