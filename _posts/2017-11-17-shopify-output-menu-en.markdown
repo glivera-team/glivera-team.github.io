@@ -7,8 +7,6 @@ lang: en
 autor:  glivera-team
 ---
 
-# Shopify: menu output
-
 In this article, we'll look at how to display navigation in Shopify. We will deduce here such menu in a site header:
 <img alt="" src="../../../../i/output-menu-1.jpg">
 

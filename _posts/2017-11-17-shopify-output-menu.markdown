@@ -7,8 +7,6 @@ lang: ru
 autor:  glivera-team
 ---
 
-# Shopify: вывод меню
-
 В этой статье мы рассмотрим как выводить навигацию в Shopify. Выведем вот такое меню:
 <img alt="" src="../../../../i/output-menu-1.jpg">
 
