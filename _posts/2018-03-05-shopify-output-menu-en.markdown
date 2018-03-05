@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Shopify: menu output"
-date:   2017-11-17 9:25:00 +0300
+date:   2018-03-05 9:25:00 +0300
 categories: shopify
 lang: en
 autor:  glivera-team
