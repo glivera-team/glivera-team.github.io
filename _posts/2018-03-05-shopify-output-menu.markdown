@@ -1,13 +1,11 @@
 ---
 layout: post
 title:  "Shopify: вывод меню"
-date:   2017-11-17 9:25:00 +0300
+date:   2018-03-05 9:25:00 +0300
 categories: shopify
 lang: ru
 autor:  glivera-team
 ---
-
-# Shopify: вывод меню
 
 В этой статье мы рассмотрим как выводить навигацию в Shopify. Выведем вот такое меню:
 <img alt="" src="../../../../i/output-menu-1.jpg">

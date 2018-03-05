@@ -1,13 +1,11 @@
 ---
 layout: post
 title:  "Shopify: menu output"
-date:   2017-11-17 9:25:00 +0300
+date:   2018-03-05 9:25:00 +0300
 categories: shopify
 lang: en
 autor:  glivera-team
 ---
-
-# Shopify: menu output
 
 In this article, we'll look at how to display navigation in Shopify. We will deduce here such menu in a site header:
 <img alt="" src="../../../../i/output-menu-1.jpg">
