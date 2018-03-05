@@ -4,7 +4,7 @@ title:  "Shopify: menu output"
 date:   2017-11-17 9:25:00 +0300
 categories: shopify
 lang: en
-autor:  Evgeny Dudyak
+autor:  glivera-team
 ---
 
 # Shopify: menu output
@@ -56,7 +56,7 @@ Add the following code to our ul:
 </ul>
 {% endhighlight %}
 
-Let's analyze the code a bit more. <b>'linklists'</b> includes all the menus that you created in the admin panel. <b>'linklist.links'</b> returns an array of links for a specific menu. Here you can see that <b>'handle'</b> which we asked in our admin panel - <b>'main-menu'</b>. 
+Let's analyze the code a bit more. <b>'linklists'</b> includes all the menus that you created in the admin panel. <b>'linklist.links'</b> returns an array of links for a specific menu. Here you can see that <b>'handle'</b> which we asked in our admin panel - <b>'main-menu'</b>.
 
 <b>'linklists.main-menu.links'</b> Here we pull out all the links that are in the <b>'main-menu'</b>. The same conclusion we can do with other menus created by us in the admin panel, just need to substitute the necessary <b>'handle'</b>. <b>{{ link.url }}</b> and <b>{{ link.title }}</b> here we just substitute the name of the link and its url.
 
