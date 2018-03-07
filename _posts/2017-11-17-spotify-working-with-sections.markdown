@@ -4,7 +4,7 @@ title:  "Spotify. Работа с секциями"
 date:   2017-11-17 16:00:00 +0300
 categories: spotify
 lang: ru
-autor:  Николай Гаврилов
+autor: glivera-team
 ---
 # **Spotify. Работа с секциями**
 
@@ -26,10 +26,33 @@ _рис.2_
 
 **Примечание:** расширение `.liquid` указывать не нужно указывать, как это делается в сниппетах тем.
 
-Рассмотрим реальный пример, чтобы понять возможности секций. На рисунке 3 приведено содержимое файла `sections/footer.liquid`
+Рассмотрим реальный пример, чтобы понять возможности секций. Ниже приведено содержимое файла `sections/footer.liquid`
 
-![foto 3](https://github.com/glivera-team/Wiki/blob/master/img/sect3.jpg)
-_рис.3_
+{% highlight html %}
+  <h1>{{ section.settings.title }}</h1>
+  <p>{{ section.settings.description }}</p>
+
+  {% schema %}
+    {
+      "name": "Footer",
+      "settings": [
+        {
+          "id": "title",
+          "type": "text",
+          "label": "Footer Title",
+          "default": "title"
+        },
+         {
+          "id": "description",
+          "type": "richtext",
+          "label": "Add your description below",
+          "default": "<p>Add your description here</p>"
+        }
+      ]
+    }
+  {% endschema %}
+{% endhighlight %}
+
 
 Как видите файл содержит смесь HTML, Liquid placeholders и JSON, подобный файлу конфигурации темы `settings_schema.json.` Функционал `settings_schema.json` остается, секции просто добавляют дополнительную функциональность.
 
@@ -37,10 +60,7 @@ _рис.3_
 
 В нашем примере шаблон секции будет выводить данные, которые соответствуют **`{{ section.settings.title }}`** и **`{{ section.settings.description }}`**.
 
-Все это отлично, но как Shopify знает, что именно выводить в этих заполнителях? Именно это указываем в JSON (см. рис. 4), который расположен между тегами открытия и закрытия **`{% schema%}`**.
-
-![foto 4](https://github.com/glivera-team/Wiki/blob/master/img/sect4.jpg)
-_рис.4_
+Все это отлично, но как Shopify знает, что именно выводить в этих заполнителях? Именно это указываем в JSON, который расположен между тегами открытия и закрытия **`{% schema%}`**.
 
 Чтобы вывести секцию в область “настройки темы” магазина, нам необходимо назначить ей идентификатор, определяя значение **“name”** на верхнем уровне нашего JSON.
 
@@ -80,22 +100,49 @@ _рис.5_
 
 Также есть типы для вывода url адресов, пользовательского HTML и т.д. С ними можно ознакомится перейдя по приведенной выше [https://help.shopify.com/themes/development/theme-editor/settings-schema](shopify documentation).
 
-Также в файлах секции можно добавить пользовательский JS или CSS используя специальные теги **`{% stylesheet %}`** и **`{% javascript %}`** (см рис. 6).
+Также в файлах секции можно добавить пользовательский JS или CSS используя специальные теги **`{% stylesheet %}`** и **`{% javascript %}`**
 
-![foto 6](https://github.com/glivera-team/Wiki/blob/master/img/sect6.jpg)
-_рис.6_
+{% highlight html %}
+  <div class="slideshow" id="slideshow-{{ section.id }}"></div>
+
+  <style>
+    #slideshow-{{ section.id }} { … }
+  </style>
+
+  {% javascript %}
+    $('.slideshow').slideshow();
+  {% endjavascript %}
+
+  {% stylesheet %}
+    .slideshow {
+      /* default styles */
+    }
+  {% endstylesheet %}
+{% endhighlight %}
 
 А как же быть с чистотой кода? Ведь это означает, что мы будем иметь кучу разбросанных инлайновых css и js. Есть хорошая новость. Shopify объединяет все CSS и JS в один файл, который вводится через заполнитель Liquid `content_for_header`. Также есть возможность использования SASS при написании пользовательских стилей, это можно сделать используя тег  **`{% stylesheet 'scss' %}`**.
 
 Если посмотреть на вывод секции на странице, то мы заметим, что она обернута элементом `<div>` с уникальным идентификатором и классом `shopify-section`.
 
-```HTML
-<div id="shopify-section-footer" class="shopify-section">
-```
+{% highlight html %}
+  <div id="shopify-section-footer" class="shopify-section">
+{% endhighlight %}
 
-Этому элементу можно добавить пользовательский класс используя свойство `“class”` в вашем JSON (см. рис. 7)
+Этому элементу можно добавить пользовательский класс используя свойство `“class”` в вашем JSON
 
-![foto 7](https://github.com/glivera-team/Wiki/blob/master/img/sect7.jpg)
-_рис.7_
+{% highlight html %}
+  {% schema %}
+    {
+      "name": "Slideshow",
+      "class": "slideshow"
+    }
+  {% endschema %}
+{% endhighlight %}
+
+{% highlight html %}
+  <div id="shopify-section-[id]" class="shopify-section slideshow">
+    [output of the section template]
+  </div>
+{% endhighlight %}
 
 В итоге секции являются мощным инструментом при разработке тем Shopify и дальнейшем их администратировании.
