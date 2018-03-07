@@ -28,9 +28,9 @@ _рис.2_
 Рассмотрим реальный пример, чтобы понять возможности секций. Ниже приведено содержимое файла `sections/footer.liquid`
 
 {% highlight html %}
+  {% raw  %}
   <h1>{{ section.settings.title }}</h1>
   <p>{{ section.settings.description }}</p>
-
   {% schema %}
     {
       "name": "Footer",
@@ -41,7 +41,7 @@ _рис.2_
           "label": "Footer Title",
           "default": "title"
         },
-         {
+        {
           "id": "description",
           "type": "richtext",
           "label": "Add your description below",
@@ -50,6 +50,7 @@ _рис.2_
       ]
     }
   {% endschema %}
+  {% endraw %}
 {% endhighlight %}
 
 
@@ -102,6 +103,7 @@ _рис.5_
 Также в файлах секции можно добавить пользовательский JS или CSS используя специальные теги **`{% stylesheet %}`** и **`{% javascript %}`**
 
 {% highlight html %}
+  {% raw %}
   <div class="slideshow" id="slideshow-{{ section.id }}"></div>
 
   <style>
@@ -117,6 +119,7 @@ _рис.5_
       /* default styles */
     }
   {% endstylesheet %}
+  {% endraw %}
 {% endhighlight %}
 
 А как же быть с чистотой кода? Ведь это означает, что мы будем иметь кучу разбросанных инлайновых css и js. Есть хорошая новость. Shopify объединяет все CSS и JS в один файл, который вводится через заполнитель Liquid `content_for_header`. Также есть возможность использования SASS при написании пользовательских стилей, это можно сделать используя тег  **`{% stylesheet 'scss' %}`**.
@@ -124,24 +127,30 @@ _рис.5_
 Если посмотреть на вывод секции на странице, то мы заметим, что она обернута элементом `<div>` с уникальным идентификатором и классом `shopify-section`.
 
 {% highlight html %}
+  {% raw %}
   <div id="shopify-section-footer" class="shopify-section">
+  {% endraw %}
 {% endhighlight %}
 
 Этому элементу можно добавить пользовательский класс используя свойство `“class”` в вашем JSON
 
 {% highlight html %}
+  {% raw %}
   {% schema %}
     {
       "name": "Slideshow",
       "class": "slideshow"
     }
   {% endschema %}
+  {% endraw %}
 {% endhighlight %}
 
 {% highlight html %}
+  {% raw %}
   <div id="shopify-section-[id]" class="shopify-section slideshow">
     [output of the section template]
   </div>
+  {% endraw %}
 {% endhighlight %}
 
 В итоге секции являются мощным инструментом при разработке тем Shopify и дальнейшем их администратировании.
