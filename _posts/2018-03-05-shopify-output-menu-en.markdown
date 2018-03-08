@@ -46,11 +46,13 @@ Add the following code to our ul:
 
 {% highlight html %}
 <ul class="header_menu_list">
+	{% raw %}
 	{% for link in linklists.main-menu.links %}
 		<li class="header_menu_item">
 			<a href="{{ link.url }}" class="header_menu_link">{{ link.title }}</a>
 		</li>
 	{% endfor %}
+	{% endraw %}
 </ul>
 {% endhighlight %}
 
@@ -61,7 +63,9 @@ Let's analyze the code a bit more. <b>'linklists'</b> includes all the menus tha
 Bonus let's do one more thing, change a bit of our link:
 
 {% highlight html %}
+{% raw %}
 <a {% if link.active %} class="header_menu_link active_mod" {% endif %} href="{{ link.url }}" class="header_menu_link">{{ link.title }}</a>
+{% endraw %}
 {% endhighlight %}
 
 Here we do a test, if the reference to which we are active, then add to it the corresponding class <b>'active_mod'</b>.
