@@ -4,7 +4,7 @@ title:  "Организация кнопок на сайте с помощью S
 date:   2015-12-28 08:24:00 +0300
 categories: sass
 lang: ru
-autor:  Гатилин Максим
+autor: Andrey Boyko
 ---
 Привет, разработчик!
 

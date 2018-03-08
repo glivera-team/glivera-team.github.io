@@ -6,7 +6,7 @@ keywords: "верстка, frontend, BackstopJS, тестирование, html,
 date:   2016-03-22 08:24:00 +0300
 categories: structure
 lang: ru
-autor:  Гатилин Максим
+autor:  Andrey Boyko
 ---
 Привет, разработчик!
 

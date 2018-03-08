@@ -4,7 +4,7 @@ title:  "Организация элементов форм с помощью ja
 date:   2015-12-28 08:24:00 +0300
 categories: jade,forms
 lang: ru
-autor:  Гатилин Максим
+autor: Andrey Boyko
 ---
 Привет, разработчик!
 
