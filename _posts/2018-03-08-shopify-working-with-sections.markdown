@@ -23,7 +23,7 @@ _рис.2_
 
 {% highlight html %}
 	{% raw  %}
-		{% section “sponsored” %}
+	{% section “sponsored” %}
 	{% endraw %}
 {% endhighlight %}
 
@@ -33,27 +33,27 @@ _рис.2_
 
 {% highlight html %}
 	{% raw  %}
-		<h1>{{ section.settings.title }}</h1>
-		<p>{{ section.settings.description }}</p>
-		{% schema %}
-			{
-				"name": "Footer",
-				"settings": [
-					{
-						"id": "title",
-						"type": "text",
-						"label": "Footer Title",
-						"default": "title"
-					},
-					{
-						"id": "description",
-						"type": "richtext",
-						"label": "Add your description below",
-						"default": "<p>Add your description here</p>"
-					}
-				]
-			}
-		{% endschema %}
+	<h1>{{ section.settings.title }}</h1>
+	<p>{{ section.settings.description }}</p>
+	{% schema %}
+		{
+			"name": "Footer",
+			"settings": [
+				{
+					"id": "title",
+					"type": "text",
+					"label": "Footer Title",
+					"default": "title"
+				},
+				{
+					"id": "description",
+					"type": "richtext",
+					"label": "Add your description below",
+					"default": "<p>Add your description here</p>"
+				}
+			]
+		}
+	{% endschema %}
 	{% endraw %}
 {% endhighlight %}
 
@@ -68,7 +68,7 @@ _рис.2_
 
 {% highlight html %}
 	{% raw  %}
-		{% schema%}
+	{% schema %}
 	{% endraw %}
 {% endhighlight %}
 
@@ -114,34 +114,34 @@ _рис.5_
 
 {% highlight html %}
 	{% raw  %}
-		{% stylesheet %}
+	{% stylesheet %}
 	{% endraw %}
 {% endhighlight %}
 
 {% highlight html %}
 	{% raw  %}
-		{% javascript %}
+	{% javascript %}
 	{% endraw %}
 {% endhighlight %}
 
 
 {% highlight html %}
 	{% raw %}
-		<div class="slideshow" id="slideshow-{{ section.id }}"></div>
+	<div class="slideshow" id="slideshow-{{ section.id }}"></div>
 
-		<style>
-			#slideshow-{{ section.id }} { … }
-		</style>
+	<style>
+		#slideshow-{{ section.id }} { … }
+	</style>
 
-		{% javascript %}
-			$('.slideshow').slideshow();
-		{% endjavascript %}
+	{% javascript %}
+		$('.slideshow').slideshow();
+	{% endjavascript %}
 
-		{% stylesheet %}
-			.slideshow {
-				/* default styles */
-			}
-		{% endstylesheet %}
+	{% stylesheet %}
+		.slideshow {
+			/* default styles */
+		}
+	{% endstylesheet %}
 	{% endraw %}
 {% endhighlight %}
 
@@ -149,7 +149,7 @@ _рис.5_
 
 {% highlight html %}
 	{% raw  %}
-		{% stylesheet 'scss' %}
+	{% stylesheet 'scss' %}
 	{% endraw %}
 {% endhighlight %}
 
@@ -157,7 +157,7 @@ _рис.5_
 
 {% highlight html %}
 	{% raw %}
-		<div id="shopify-section-footer" class="shopify-section">
+	<div id="shopify-section-footer" class="shopify-section">
 	{% endraw %}
 {% endhighlight %}
 
@@ -165,20 +165,20 @@ _рис.5_
 
 {% highlight html %}
 	{% raw %}
-		{% schema %}
-			{
-				"name": "Slideshow",
-				"class": "slideshow"
-			}
-		{% endschema %}
+	{% schema %}
+		{
+			"name": "Slideshow",
+			"class": "slideshow"
+		}
+	{% endschema %}
 	{% endraw %}
 {% endhighlight %}
 
 {% highlight html %}
 	{% raw %}
-		<div id="shopify-section-[id]" class="shopify-section slideshow">
-			[output of the section template]
-		</div>
+	<div id="shopify-section-[id]" class="shopify-section slideshow">
+		[output of the section template]
+	</div>
 	{% endraw %}
 {% endhighlight %}
 
