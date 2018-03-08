@@ -4,7 +4,7 @@ title:  "Site buttons organization with Sass"
 date:   2015-12-28 08:24:00 +0300
 categories: sass
 lang: eng
-autor: Gatilin Maxim
+autor: Andrey Boyko
 ---
 
 Designers often create different sizes and decorations of the site buttons. Some of them can be repeating, some are not. It would be awesome to create system for quickly adding and editing buttons, sass @extend's is the right choice. It's illustration of buttons on typical project:

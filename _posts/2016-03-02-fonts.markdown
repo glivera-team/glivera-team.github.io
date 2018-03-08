@@ -6,7 +6,7 @@ keywords: "Шрифты, верстка, frontend, типографика, html,
 date:   2016-03-02 08:24:00 +0300
 categories: fonts
 lang: ru
-autor:  Гатилин Максим
+autor:  Andrey Boyko
 ---
 Привет, разработчик!
 

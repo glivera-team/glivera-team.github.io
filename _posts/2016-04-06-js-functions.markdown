@@ -6,7 +6,7 @@ keywords: "верстка, frontend, jquery, тестирование, html, css
 date:   2016-04-06 08:24:00 +0300
 categories: javascript
 lang: ru
-autor:  Гатилин Максим
+autor:  Andrey Boyko
 ---
 Привет, разработчик!
 

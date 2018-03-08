@@ -8,7 +8,7 @@
 # Site settings
 title: Блог команды glivera-team о верстке
 title_eng: Glivera-team frontend blog
-email: gatilin222@gmail.com
+email: glivera28@gmail.com
 description: Статьи для html-верстальщиков и frontend-разработчиков
 keywords: "html,css,javascript,верстка,frontend,jade,sass,gulp"
 baseurl: "" # the subpath of your site, e.g. /blog
