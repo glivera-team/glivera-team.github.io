@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Shopify: menu output"
+title:  "Shopify: Menu output"
 date:   2018-03-05 9:25:00 +0300
 categories: shopify
 lang: en

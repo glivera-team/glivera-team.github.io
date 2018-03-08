@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Shopify: вывод меню"
+title:  "Shopify: Вывод меню"
 date:   2018-03-05 9:25:00 +0300
 categories: shopify
 lang: ru
