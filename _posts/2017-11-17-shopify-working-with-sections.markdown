@@ -1,8 +1,8 @@
 ---
 layout: post
-title:  "Spotify. Работа с секциями"
-date:   2017-11-17 16:00:00 +0300
-categories: spotify
+title:  "Shopify: Работа с секциями"
+date:   2018-03-08 19:00:00 +0300
+categories: shopify
 lang: ru
 autor: glivera-team
 ---
@@ -21,7 +21,11 @@ _рис.2_
 
 Шаблоны секций расположены в папке sections и выводятся аналогично сниппетам. Если файл секции находится по пути `sections/sponsored.liquid`, то выводим его следующим образом.
 
-**`{% section “sponsored” %}`**
+{% highlight html %}
+    {% raw  %}
+        {% section “sponsored” %}
+    {% endraw %}
+{% endhighlight %}
 
 **Примечание:** расширение `.liquid` указывать не нужно указывать, как это делается в сниппетах тем.
 
@@ -29,27 +33,27 @@ _рис.2_
 
 {% highlight html %}
   {% raw  %}
-  <h1>{{ section.settings.title }}</h1>
-  <p>{{ section.settings.description }}</p>
-  {% schema %}
-    {
-      "name": "Footer",
-      "settings": [
+      <h1>{{ section.settings.title }}</h1>
+      <p>{{ section.settings.description }}</p>
+      {% schema %}
         {
-          "id": "title",
-          "type": "text",
-          "label": "Footer Title",
-          "default": "title"
-        },
-        {
-          "id": "description",
-          "type": "richtext",
-          "label": "Add your description below",
-          "default": "<p>Add your description here</p>"
+          "name": "Footer",
+          "settings": [
+            {
+              "id": "title",
+              "type": "text",
+              "label": "Footer Title",
+              "default": "title"
+            },
+            {
+              "id": "description",
+              "type": "richtext",
+              "label": "Add your description below",
+              "default": "<p>Add your description here</p>"
+            }
+          ]
         }
-      ]
-    }
-  {% endschema %}
+      {% endschema %}
   {% endraw %}
 {% endhighlight %}
 
@@ -104,21 +108,21 @@ _рис.5_
 
 {% highlight html %}
   {% raw %}
-  <div class="slideshow" id="slideshow-{{ section.id }}"></div>
-
-  <style>
-    #slideshow-{{ section.id }} { … }
-  </style>
-
-  {% javascript %}
-    $('.slideshow').slideshow();
-  {% endjavascript %}
-
-  {% stylesheet %}
-    .slideshow {
-      /* default styles */
-    }
-  {% endstylesheet %}
+      <div class="slideshow" id="slideshow-{{ section.id }}"></div>
+    
+      <style>
+        #slideshow-{{ section.id }} { … }
+      </style>
+    
+      {% javascript %}
+        $('.slideshow').slideshow();
+      {% endjavascript %}
+    
+      {% stylesheet %}
+        .slideshow {
+          /* default styles */
+        }
+      {% endstylesheet %}
   {% endraw %}
 {% endhighlight %}
 
@@ -128,7 +132,7 @@ _рис.5_
 
 {% highlight html %}
   {% raw %}
-  <div id="shopify-section-footer" class="shopify-section">
+    <div id="shopify-section-footer" class="shopify-section">
   {% endraw %}
 {% endhighlight %}
 
@@ -136,20 +140,20 @@ _рис.5_
 
 {% highlight html %}
   {% raw %}
-  {% schema %}
-    {
-      "name": "Slideshow",
-      "class": "slideshow"
-    }
-  {% endschema %}
+      {% schema %}
+        {
+          "name": "Slideshow",
+          "class": "slideshow"
+        }
+      {% endschema %}
   {% endraw %}
 {% endhighlight %}
 
 {% highlight html %}
   {% raw %}
-  <div id="shopify-section-[id]" class="shopify-section slideshow">
-    [output of the section template]
-  </div>
+      <div id="shopify-section-[id]" class="shopify-section slideshow">
+        [output of the section template]
+      </div>
   {% endraw %}
 {% endhighlight %}
 
