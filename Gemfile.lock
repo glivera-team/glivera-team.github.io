@@ -36,7 +36,7 @@ GEM
     pathutil (0.14.0)
       forwardable-extended (~> 2.6)
     rack (1.6.4)
-    rack-protection (1.5.3)
+    rack-protection (2.0.0)
       rack
     rack-test (0.6.3)
       rack (>= 1.0)
