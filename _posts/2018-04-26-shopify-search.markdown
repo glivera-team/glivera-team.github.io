@@ -48,7 +48,7 @@ autor:  glivera-team
 {% endhighlight %}
 
 Должно получится следующее:
-<img alt="" src="../../../../i/search-2.jpg">
+<img alt="" src="../../../../i/search-3.jpg">
 
 Код <b>if search.performed %}</b> возвращает true, если была успешно отправлена форма с атрибутом action = / search.
 
