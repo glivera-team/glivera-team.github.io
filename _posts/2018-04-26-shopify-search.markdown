@@ -111,9 +111,11 @@ autor:  glivera-team
 ## 4.Добавим пагинацию для результатов поиска
 
 {% highlight html %}
+{% raw %}
 {% paginate search.results by 5 %}
 
 {% endpaginate %}
+{% endraw %}
 {% endhighlight %}
 
 Здесь мы говорим что хотим видеть на странице только 5 результатов поиска, остальные будут на других страницах.
