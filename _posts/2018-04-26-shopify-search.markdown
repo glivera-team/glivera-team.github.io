@@ -50,7 +50,9 @@ autor:  glivera-team
 Должно получится следующее:
 <img alt="" src="../../../../i/search-3.jpg">
 
-Код <b>if search.performed %}</b> возвращает true, если была успешно отправлена форма с атрибутом action = / search.
+На код <b>paginate search.results</b> пока не обращайте внимания, о нем мы поговорим позже.
+
+Код <b>if search.performed</b> возвращает true, если была успешно отправлена форма с атрибутом action = / search.
 
 ## 3.Выводим результат поиска через цикл
 
@@ -107,7 +109,7 @@ autor:  glivera-team
 {% endraw %}
 {% endhighlight %}
 
-Если не было ничего найдено, выводится div с текстом о том что по данному запросу ничего нет.
+Если не было ничего найдено, выводится <b>div</b> с текстом о том что по данному запросу ничего нет.
 {% highlight html %}
 {% raw %}
 {% if item.featured_image %}
@@ -133,7 +135,7 @@ autor:  glivera-team
 {% endhighlight %}
 
 Здесь мы говорим что хотим видеть на странице только 5 результатов поиска, остальные будут на других страницах.
-<img alt="" src="../../../../i/search-8.jpg">
+<img alt="" src="../../../../i/search-5.jpg">
 
 Что за <b> include 'pagination'</b> ?
 {% highlight html %}
