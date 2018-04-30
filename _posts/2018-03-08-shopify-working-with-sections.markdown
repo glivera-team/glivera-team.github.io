@@ -1,8 +1,8 @@
 ---
 layout: post
-title:  "Shopify: Работа с секциями"
-date:   2018-03-08 19:00:00 +0300
-categories: shopify
+title:  "Spotify. Работа с секциями"
+date:   2017-11-17 16:00:00 +0300
+categories: spotify
 lang: ru
 autor: glivera-team
 ---
