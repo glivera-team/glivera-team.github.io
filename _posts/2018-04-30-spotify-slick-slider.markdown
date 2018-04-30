@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Spotify. Подключаем Slick slider"
+title:  "Shopify. Подключаем Slick slider"
 date:   2018-04-30 17:20:00 +0300
 categories: spotify
 lang: ru
