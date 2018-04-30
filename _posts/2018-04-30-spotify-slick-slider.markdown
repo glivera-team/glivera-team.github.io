@@ -19,8 +19,8 @@ autor: glivera-team
 
 {% highlight html %}
 {% raw  %}
-    @import url('modules/slick.scss');
-    @import url('modules/slick-theme.scss');
+@import url('modules/slick.scss');
+@import url('modules/slick-theme.scss');
 {% endraw %}
 {% endhighlight %}
 
@@ -28,7 +28,7 @@ Js размещен по пути `src/scripts/vendor/` и подключен в
 
 {% highlight html %}
 {% raw  %}
-  // =require vendor/slick.min.js
+// =require vendor/slick.min.js
 {% endraw %}
 {% endhighlight %}
 
@@ -38,13 +38,13 @@ Js размещен по пути `src/scripts/vendor/` и подключен в
 
 {% highlight html %}
 {% raw  %}
-  {% javascript %}
-  $('.slider_wrap').slick({
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1
-  });
+{% javascript %}
+$('.slider_wrap').slick({
+infinite: true,
+speed: 500,
+slidesToShow: 1,
+slidesToScroll: 1
+});
 {% endjavascript %}
 {% endraw %}
 {% endhighlight %}
@@ -60,24 +60,24 @@ Js размещен по пути `src/scripts/vendor/` и подключен в
 
 {% highlight html %}
 {% raw  %}
-  {% if section.blocks.size > 0 %}
-  <div class="slider_wrap" data-slick='{"autoplay": {{ section.settings.carousel_autoplay }}, "autoplaySpeed": {{ section.settings.autoplay_speed }}, "dots": {{ section.settings.carousel_dots }}, "arrows": {{ section.settings.carousel_arrows }}}'>
+{% if section.blocks.size > 0 %}
+<div class="slider_wrap" data-slick='{"autoplay": {{ section.settings.carousel_autoplay }}, "autoplaySpeed": {{ section.settings.autoplay_speed }}, "dots": {{ section.settings.carousel_dots }}, "arrows": {{ section.settings.carousel_arrows }}}'>
 
-      {% for block in section.blocks %}
-        <div class="slider_item">
-            <div class="slider_img_wrap">
-              <img src="{{ block.settings.slide_img | img_url: 'original' }}" alt="" class="slider_img">
-            </div>
-          div class="content_wrap">
-          <div class="slider_content">
-            <h2 class="slider_title">{{  block.settings.slide_title }}</h2>
-            <p class="slider_text">{{  block.settings.slide_text }}</p>
-            <a href="{{ block.settings.slide_link }}" class="button">{{ block.settings.button_title }}</a>
-          </div>
+  {% for block in section.blocks %}
+    <div class="slider_item">
+        <div class="slider_img_wrap">
+          <img src="{{ block.settings.slide_img | img_url: 'original' }}" alt="" class="slider_img">
         </div>
-      {% endfor %}
-  </div>
-  {% endif %}
+      div class="content_wrap">
+      <div class="slider_content">
+        <h2 class="slider_title">{{  block.settings.slide_title }}</h2>
+        <p class="slider_text">{{  block.settings.slide_text }}</p>
+        <a href="{{ block.settings.slide_link }}" class="button">{{ block.settings.button_title }}</a>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+{% endif %}
 {% endraw %}
 {% endhighlight %}
 
@@ -92,87 +92,87 @@ Js размещен по пути `src/scripts/vendor/` и подключен в
 
 {% highlight html %}
 {% raw  %}
-  {% schema %}
-    {
-    "name": "Carousel",
-    "max_blocks": 8,
-    "settings": [
-      {
-        "type":"header",
-        "content":"Carousel option"
-      },
-      {
-        "type": "checkbox",
-        "id": "carousel_autoplay",
-        "label": "Enable autoplay",
-        "default": false
-      },
-      {
-        "type": "checkbox",
-        "id": "carousel_dots",
-        "label": "Enable dots",
-        "default": false
-      },
-      {
-        "type": "checkbox",
-        "id": "carousel_arrows",
-        "label": "Enable arrows",
-        "default": false
-      },
-      {
-        "type": "select",
-        "id": "autoplay_speed",
-        "label": "Change slides every",
-          "options": [
-          { "value": "1000", "label": "1 seconds" },
-          { "value": "2000", "label": "2 seconds" },
-          { "value": "3000", "label": "3 seconds" },
-          { "value": "4000", "label": "4 seconds" },
-          { "value": "5000", "label": "5 seconds" },
-          { "value": "6000", "label": "6 seconds" },
-          { "value": "7000", "label": "7 seconds" },
-          { "value": "8000", "label": "8 seconds" },
-          { "value": "9000", "label": "9 seconds" },
-          { "value": "10000", "label": "10 seconds" }
-        ],
-        "default": "7000"
-      }
+{% schema %}
+{
+"name": "Carousel",
+"max_blocks": 8,
+"settings": [
+  {
+    "type":"header",
+    "content":"Carousel option"
+  },
+  {
+    "type": "checkbox",
+    "id": "carousel_autoplay",
+    "label": "Enable autoplay",
+    "default": false
+  },
+  {
+    "type": "checkbox",
+    "id": "carousel_dots",
+    "label": "Enable dots",
+    "default": false
+  },
+  {
+    "type": "checkbox",
+    "id": "carousel_arrows",
+    "label": "Enable arrows",
+    "default": false
+  },
+  {
+    "type": "select",
+    "id": "autoplay_speed",
+    "label": "Change slides every",
+      "options": [
+      { "value": "1000", "label": "1 seconds" },
+      { "value": "2000", "label": "2 seconds" },
+      { "value": "3000", "label": "3 seconds" },
+      { "value": "4000", "label": "4 seconds" },
+      { "value": "5000", "label": "5 seconds" },
+      { "value": "6000", "label": "6 seconds" },
+      { "value": "7000", "label": "7 seconds" },
+      { "value": "8000", "label": "8 seconds" },
+      { "value": "9000", "label": "9 seconds" },
+      { "value": "10000", "label": "10 seconds" }
     ],
-    "blocks": [
-      {
-      "type": "slide",
-      "name": "Slide",
-      "settings": [
-            {
-              "type": "text",
-              "id": "button_title",
-              "label": "Button title"
-            },
-            {
-              "type": "url",
-              "id": "slide_link",
-              "label": "Slide link"
-            },
-            {
-              "type": "text",
-              "id": "slide_title",
-              "label": "Slider title"
-            },
-            {
-              "type": "textarea",
-              "id": "slide_text",
-              "label": "Slide text"
-            },
-            {
-              "type": "image_picker",
-              "id": "slide_img",
-              "label": "Add img for slide"
-            }
-          ]
+    "default": "7000"
+  }
+],
+"blocks": [
+  {
+  "type": "slide",
+  "name": "Slide",
+  "settings": [
+        {
+          "type": "text",
+          "id": "button_title",
+          "label": "Button title"
+        },
+        {
+          "type": "url",
+          "id": "slide_link",
+          "label": "Slide link"
+        },
+        {
+          "type": "text",
+          "id": "slide_title",
+          "label": "Slider title"
+        },
+        {
+          "type": "textarea",
+          "id": "slide_text",
+          "label": "Slide text"
+        },
+        {
+          "type": "image_picker",
+          "id": "slide_img",
+          "label": "Add img for slide"
         }
       ]
     }
-  {% endschema %}
+  ]
+}
+{% endschema %}
 {% endraw %}
 {% endhighlight %}
 
