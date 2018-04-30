@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Spotify. Подключаем Slick slider"
-date:   2017-04-30 17:20:00 +0300
+date:   2018-04-30 17:20:00 +0300
 categories: spotify
 lang: ru
 autor: glivera-team
