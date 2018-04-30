@@ -1,10 +1,10 @@
 ---
 layout: post
 title:  "Spotify. Подключаем Slick slider"
-date:   2017-11-17 13:20:00 +0300
+date:   2017-04-30 17:20:00 +0300
 categories: spotify
 lang: ru
-autor:  Гаврилов Николай
+autor: glivera-team
 ---
 # **Spotify. Подключаем Slick slider**
 
