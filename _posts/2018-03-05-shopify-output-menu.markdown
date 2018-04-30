@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Shopify: вывод меню"
+title:  "Shopify: Вывод меню"
 date:   2018-03-05 9:25:00 +0300
 categories: shopify
 lang: ru
@@ -63,7 +63,9 @@ autor:  glivera-team
 Бонусом давайте сделаем еще одну вещь, изменим немного нашу ссылку:
 
 {% highlight html %}
+{% raw %}
 <a {% if link.active %} class="header_menu_link active_mod" {% endif %} href="{{ link.url }}" class="header_menu_link">{{ link.title }}</a>
+{% endraw %}
 {% endhighlight %}
 
 Здесь мы делаем проверку, если ссылка на которой мы находимся активная, то добавляем ей соответствующий класс <b>'active_mod'</b>.

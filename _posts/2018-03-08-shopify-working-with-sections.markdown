@@ -1,8 +1,8 @@
 ---
 layout: post
-title:  "Shopify: Работа с секциями"
-date:   2018-03-08 19:00:00 +0300
-categories: shopify
+title:  "Spotify. Работа с секциями"
+date:   2017-11-17 16:00:00 +0300
+categories: spotify
 lang: ru
 autor: glivera-team
 ---
@@ -11,10 +11,10 @@ autor: glivera-team
 
 Все изменения администратор видит в режиме реального времени, что очень удобно. Управление доступно из административной части магазина (см. рис. 1 и 2).
 
-![foto 1](https://github.com/glivera-team/Wiki/blob/master/img/sect1.jpg)
+<img alt="" src="../../../../i/sect1.jpg">
 _рис.1_
 
-![foto 2](https://github.com/glivera-team/Wiki/blob/master/img/sect2.jpg)
+<img alt="" src="../../../../i/sect2.jpg">
 _рис.2_
 
 Секции могут быть включены статически (например header или footer шаблона), также их можно добавить или удалить динамически через интерфейс администратора на главной странице темы. В примере выше можно увидеть редактирование контента статической секции на примере слайдера. Также заметна кнопка “добавить секцию”, которая позволяет выводить динамические секции. Все это мы рассмотрим в этой статье.
@@ -22,49 +22,68 @@ _рис.2_
 Шаблоны секций расположены в папке sections и выводятся аналогично сниппетам. Если файл секции находится по пути `sections/sponsored.liquid`, то выводим его следующим образом.
 
 {% highlight html %}
-    {% raw  %}
-        {% section “sponsored” %}
-    {% endraw %}
+{% raw  %}
+{% section “sponsored” %}
+{% endraw %}
 {% endhighlight %}
 
-**Примечание:** расширение `.liquid` указывать не нужно указывать, как это делается в сниппетах тем.
+**Примечание:** расширение `.liquid` указывать не нужно, как это делается в сниппетах тем.
 
 Рассмотрим реальный пример, чтобы понять возможности секций. Ниже приведено содержимое файла `sections/footer.liquid`
 
 {% highlight html %}
-  {% raw  %}
-      <h1>{{ section.settings.title }}</h1>
-      <p>{{ section.settings.description }}</p>
-      {% schema %}
-        {
-          "name": "Footer",
-          "settings": [
-            {
-              "id": "title",
-              "type": "text",
-              "label": "Footer Title",
-              "default": "title"
-            },
-            {
-              "id": "description",
-              "type": "richtext",
-              "label": "Add your description below",
-              "default": "<p>Add your description here</p>"
-            }
-          ]
-        }
-      {% endschema %}
-  {% endraw %}
+{% raw  %}
+<h1>{{ section.settings.title }}</h1>
+<p>{{ section.settings.description }}</p>
+{% schema %}
+	{
+		"name": "Footer",
+		"settings": [
+			{
+				"id": "title",
+				"type": "text",
+				"label": "Footer Title",
+				"default": "title"
+			},
+			{
+				"id": "description",
+				"type": "richtext",
+				"label": "Add your description below",
+				"default": "<p>Add your description here</p>"
+			}
+		]
+	}
+{% endschema %}
+{% endraw %}
 {% endhighlight %}
 
 
 Как видите файл содержит смесь HTML, Liquid placeholders и JSON, подобный файлу конфигурации темы `settings_schema.json.` Функционал `settings_schema.json` остается, секции просто добавляют дополнительную функциональность.
 
-В верхней части шаблона расположен HTML, который будет выведен на странице. Внутри каждого из элементов `h1` и `p` находятся Liquid заполнители, использующие такой синтаксис **`{{ section.settings. [X] }}`**.
+В верхней части шаблона расположен HTML, который будет выведен на странице. Внутри каждого из элементов `h1` и `p` находятся Liquid заполнители, использующие такой синтаксис:
 
-В нашем примере шаблон секции будет выводить данные, которые соответствуют **`{{ section.settings.title }}`** и **`{{ section.settings.description }}`**.
+{% highlight html %}
+{% raw  %}
+{{ section.settings. [X] }}
+{% endraw %}
+{% endhighlight %}
 
-Все это отлично, но как Shopify знает, что именно выводить в этих заполнителях? Именно это указываем в JSON, который расположен между тегами открытия и закрытия **`{% schema%}`**.
+В нашем примере шаблон секции будет выводить данные, которые соответствуют:
+
+{% highlight html %}
+{% raw  %}
+{{ section.settings.title }}
+{{ section.settings.description }}
+{% endraw %}
+{% endhighlight %}
+
+Все это отлично, но как Shopify знает, что именно выводить в этих заполнителях? Именно это указываем в JSON, который расположен между тегами открытия и закрытия:
+
+{% highlight html %}
+{% raw  %}
+{% schema %}
+{% endraw %}
+{% endhighlight %}
 
 Чтобы вывести секцию в область “настройки темы” магазина, нам необходимо назначить ей идентификатор, определяя значение **“name”** на верхнем уровне нашего JSON.
 
@@ -74,7 +93,7 @@ _рис.2_
 
 Идентификатор, который указывает на то, что именно из этого под-узла необходимо вывести информацию в соответствующем заполнителе (см. рис. 5).
 
-![foto 5](https://github.com/glivera-team/Wiki/blob/master/img/sect5.jpg)
+<img alt="" src="../../../../i/sect5.jpg">
 _рис.5_
 
 Не смотря на то, что идентификаторы в файле секции должны быть уникальными, не обязательна их уникальность во всех файлах секций. Поэтому вполне нормально иметь  `“id”: “title”` в файлах нескольких секций.Также не будут конфликтовать настройки секций с настройками в `settings_schema.json`.
@@ -92,7 +111,7 @@ _рис.5_
 * **`checkbox:`** флажки
 * **`range:`** ползунок выбора диапазона или значений
 
-Некоторые типы требуют дополнительно JSON для работы. Например выпадающие списки или радиокнопки. Подробную информацию можно найти на странице официальной документации
+Некоторые типы требуют дополнительно JSON для работы. Например выпадающие списки или радиокнопки. Подробную информацию можно найти на странице официальной документации.
 
 ## **label**
 
@@ -104,57 +123,76 @@ _рис.5_
 
 Также есть типы для вывода url адресов, пользовательского HTML и т.д. С ними можно ознакомится перейдя по приведенной выше [https://help.shopify.com/themes/development/theme-editor/settings-schema](shopify documentation).
 
-Также в файлах секции можно добавить пользовательский JS или CSS используя специальные теги **`{% stylesheet %}`** и **`{% javascript %}`**
+Также в файлах секции можно добавить пользовательский JS или CSS используя специальные теги:
 
 {% highlight html %}
-  {% raw %}
-      <div class="slideshow" id="slideshow-{{ section.id }}"></div>
-    
-      <style>
-        #slideshow-{{ section.id }} { … }
-      </style>
-    
-      {% javascript %}
-        $('.slideshow').slideshow();
-      {% endjavascript %}
-    
-      {% stylesheet %}
-        .slideshow {
-          /* default styles */
-        }
-      {% endstylesheet %}
-  {% endraw %}
+{% raw  %}
+{% stylesheet %}
+{% endraw %}
 {% endhighlight %}
 
-А как же быть с чистотой кода? Ведь это означает, что мы будем иметь кучу разбросанных инлайновых css и js. Есть хорошая новость. Shopify объединяет все CSS и JS в один файл, который вводится через заполнитель Liquid `content_for_header`. Также есть возможность использования SASS при написании пользовательских стилей, это можно сделать используя тег  **`{% stylesheet 'scss' %}`**.
+{% highlight html %}
+{% raw  %}
+{% javascript %}
+{% endraw %}
+{% endhighlight %}
+
+
+{% highlight html %}
+{% raw %}
+<div class="slideshow" id="slideshow-{{ section.id }}"></div>
+
+<style>
+	#slideshow-{{ section.id }} { … }
+</style>
+
+{% javascript %}
+	$('.slideshow').slideshow();
+{% endjavascript %}
+
+{% stylesheet %}
+	.slideshow {
+		/* default styles */
+	}
+{% endstylesheet %}
+{% endraw %}
+{% endhighlight %}
+
+А как же быть с чистотой кода? Ведь это означает, что мы будем иметь кучу разбросанных инлайновых css и js. Есть хорошая новость. Shopify объединяет все CSS и JS в один файл, который вводится через заполнитель Liquid `content_for_header`. Также есть возможность использования SASS при написании пользовательских стилей, это можно сделать используя тег:
+
+{% highlight html %}
+{% raw  %}
+{% stylesheet 'scss' %}
+{% endraw %}
+{% endhighlight %}
 
 Если посмотреть на вывод секции на странице, то мы заметим, что она обернута элементом `<div>` с уникальным идентификатором и классом `shopify-section`.
 
 {% highlight html %}
-  {% raw %}
-    <div id="shopify-section-footer" class="shopify-section">
-  {% endraw %}
+{% raw %}
+<div id="shopify-section-footer" class="shopify-section">
+{% endraw %}
 {% endhighlight %}
 
 Этому элементу можно добавить пользовательский класс используя свойство `“class”` в вашем JSON
 
 {% highlight html %}
-  {% raw %}
-      {% schema %}
-        {
-          "name": "Slideshow",
-          "class": "slideshow"
-        }
-      {% endschema %}
-  {% endraw %}
+{% raw %}
+{% schema %}
+	{
+		"name": "Slideshow",
+		"class": "slideshow"
+	}
+{% endschema %}
+{% endraw %}
 {% endhighlight %}
 
 {% highlight html %}
-  {% raw %}
-      <div id="shopify-section-[id]" class="shopify-section slideshow">
-        [output of the section template]
-      </div>
-  {% endraw %}
+{% raw %}
+<div id="shopify-section-[id]" class="shopify-section slideshow">
+	[output of the section template]
+</div>
+{% endraw %}
 {% endhighlight %}
 
 В итоге секции являются мощным инструментом при разработке тем Shopify и дальнейшем их администратировании.
