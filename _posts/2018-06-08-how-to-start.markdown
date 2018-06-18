@@ -3,7 +3,7 @@ layout: post
 title:  "Как стать начинающим верстальщиком"
 excerpt: "Как стать начинающим верстальщиком"
 keywords: "верстка, frontend, html, css, javascript"
-date:   2016-05-02 08:24:00 +0300
+date:   2018-06-08 08:24:00 +0300
 categories: how-to
 lang: ru
 autor:  Andrey Boyko
@@ -19,12 +19,15 @@ HTML и CSS - это то, что верстальщик пишет каждый
 * <a href="https://www.youtube.com/playlist?list=PLY4rE9dstrJyeZlPWoKJr1xKVVnG4w-Hc" target="_blank">HTML для начинающих от loftblog(видео-уроки)</a>
 * <a href="https://www.youtube.com/playlist?list=PL026CCEB5125879C2" target="_blank">Основы CSS от Sorax(видео-уроки)</a>
 * <a href="https://htmlacademy.ru/" target="_blank">Интерактивные курсы от HTML Academy</a>
+* <a href="http://css-live.ru/articles/vizualnoe-rukovodstvo-po-svojstvam-flexbox-iz-css3.html" target="_blank">Визуальное руководство по свойствам Flexbox</a>
+* <a href="https://www.youtube.com/watch?v=RNjnRA0QSug" target="_blank">Flexbox CSS3(видео-уроки)</a>
+
 
 После прохождения уроков вы должны понимать:
 
 * что такое html-теги и как они работают
 * блочную модель(border, margin, padding)
-* как работают float, inline-block
+* как работает float, inline-block и flexbox
 * позиционирование(абсолютное, относительное, фиксированное, z-index)
 
 Вы должны уметь:
@@ -47,7 +50,7 @@ HTML и CSS - это то, что верстальщик пишет каждый
 * <a href="https://habrahabr.ru/post/272649/" target="_blank">Фотошоп для верстальщика(хабр)</a>
 * <a href="https://www.youtube.com/watch?v=9lzJvnJpXL8" target="_blank">С ножом против паровоза, В. Макеев</a>
 * <a href="http://xiper.net/learn/photoshop/" target="_blank">Фотошоп для кодера(цикл статей)</a>
-* <a href="https://www.youtube.com/watch?v=KeNaFwpqnaE" target="_blank">Фотошоп для HTML верстальщика(видео)</a>
+* <a href="https://www.youtube.com/watch?v=Kmkx3SfJwuc" target="_blank">Основы Photoshop для web разработчика</a>
 
 ## Начальные инструменты
 
@@ -80,6 +83,7 @@ HTML и CSS - это то, что верстальщик пишет каждый
 * <a href="https://www.youtube.com/playlist?list=PL363QX7S8MfSxcHzvkNEqMYbOyhLeWwem" target="_blank">Основы JS от Sorax</a> (аккуратнее, может взорваться голова)
 * <a href="https://www.youtube.com/playlist?list=PLY4rE9dstrJxST3xftg5kSCQdUB8hvj4S" target="_blank">Основы jQuery от Loftblog</a>
 * <a href="https://www.youtube.com/playlist?list=PLY4rE9dstrJz25gq63HjXIOPg0ailynCN" target="_blank">Базовые элементы страниц от Loftblog</a>
+* <a href="https://jquery-docs.ru/" target="_blank">Русская документация по API jQuery</a>
 
 ## БЭМ
 
@@ -107,9 +111,9 @@ HTML и CSS - это то, что верстальщик пишет каждый
 * <a href="https://www.youtube.com/playlist?list=PLZfRjCZl2NuQr8v2_DV8ZX6a03gntn7yU" target="_blank">Все про Sass и Compass(видео)</a>
 * <a href="http://sass-lessons.ru/" target="_blank">sass-lessons.ru</a>
 
-## Jade
+## Pug
 
-Также для ускорения верстки и поддержки верстальщики используют шаблонизаторы html. Наш выбор - jade. После изучения вы должны понимать:
+Также для ускорения верстки и поддержки верстальщики используют шаблонизаторы html. Наш выбор - pug. После изучения вы должны понимать:
 
 * как делать миксины
 * как работает extends
@@ -120,8 +124,9 @@ HTML и CSS - это то, что верстальщик пишет каждый
 
 Полезные ссылки:
 
-* <a href="https://www.youtube.com/watch?v=dnL5EpZWdgw" target="_blank">Видео про Jade на loftblog</a>
-* <a href="http://jade-lang.com/" target="_blank">http://jade-lang.com/</a>
+* <a href="https://www.youtube.com/watch?v=dnL5EpZWdgw" target="_blank">Видео про Jade(Pug) на loftblog</a>
+* <a href="https://pugjs.org" target="_blank">https://pugjs.org</a>
+* <a href="https://gist.github.com/neretin-trike/53aff5afb76153f050c958b82abd9228" target="_blank">Туториал по HTML препроцессору Pug (Jade)</a>
 
 ## Адаптивность
 
