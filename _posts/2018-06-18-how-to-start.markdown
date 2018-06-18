@@ -3,7 +3,7 @@ layout: post
 title:  "Как стать начинающим верстальщиком"
 excerpt: "Как стать начинающим верстальщиком"
 keywords: "верстка, frontend, html, css, javascript"
-date:   2018-06-08 08:24:00 +0300
+date:   2018-06-18 16:48:00 +0300
 categories: how-to
 lang: ru
 autor:  Andrey Boyko
