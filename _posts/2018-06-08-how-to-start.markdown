@@ -19,6 +19,9 @@ HTML и CSS - это то, что верстальщик пишет каждый
 * <a href="https://www.youtube.com/playlist?list=PLY4rE9dstrJyeZlPWoKJr1xKVVnG4w-Hc" target="_blank">HTML для начинающих от loftblog(видео-уроки)</a>
 * <a href="https://www.youtube.com/playlist?list=PL026CCEB5125879C2" target="_blank">Основы CSS от Sorax(видео-уроки)</a>
 * <a href="https://htmlacademy.ru/" target="_blank">Интерактивные курсы от HTML Academy</a>
+* <a href="http://css-live.ru/articles/vizualnoe-rukovodstvo-po-svojstvam-flexbox-iz-css3.html" target="_blank">Визуальное руководство по свойствам Flexbox</a>
+* <a href="https://www.youtube.com/watch?v=RNjnRA0QSug" target="_blank">Flexbox CSS3(видео-уроки)</a>
+
 
 После прохождения уроков вы должны понимать:
 
@@ -121,8 +124,9 @@ HTML и CSS - это то, что верстальщик пишет каждый
 
 Полезные ссылки:
 
-* <a href="https://www.youtube.com/watch?v=dnL5EpZWdgw" target="_blank">Видео про Jade на loftblog</a>
+* <a href="https://www.youtube.com/watch?v=dnL5EpZWdgw" target="_blank">Видео про Jade(Pug) на loftblog</a>
 * <a href="https://pugjs.org" target="_blank">https://pugjs.org</a>
+* <a href="https://gist.github.com/neretin-trike/53aff5afb76153f050c958b82abd9228" target="_blank">Туториал по HTML препроцессору Pug (Jade)</a>
 
 ## Адаптивность
 
