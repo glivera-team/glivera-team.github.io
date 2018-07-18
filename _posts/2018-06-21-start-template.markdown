@@ -45,7 +45,7 @@ autor:  glivera-team
 		└── templates/
 			Шаблон для спрайтов
 		_base.scss - здесь описываются базовые стили, для html, body и для каких-то глобальных блоков
-		_family.scss - ?
+		_family.scss - миксины для работы с дочерними элементами
 		_fonts.scss - здесь подключаем шрифты
 		_footer.scss - стили для футера
 		_forms.scss - стили для форм
