@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Стартовый шаблон Glivera-Team"
-date:   2018-07-20 11:00:00 +0300
+date:   2018-07-30 17:46:00 +0300
 categories: structure
 lang: ru
 autor:  glivera-team
@@ -12,7 +12,7 @@ autor:  glivera-team
 {% highlight html %}
 └──assets
 	└── fonts/
-		Шрифты проекта         
+		Шрифты проекта
 	└── i/
 		Изображения проекта
 		└── icons/
