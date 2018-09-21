@@ -20,8 +20,8 @@ autor:  glivera-team
   <meta name="viewport" content="width=device-width"/>
   <meta name="description" content="<?php bloginfo('description')?>"/>
   <title>
-     <?php bloginfo('name'); ?>
-     <?php is_front_page() ? bloginfo('description') : wp_get_document_title(); ?>
+    <?php bloginfo('name'); ?>
+    <?php is_front_page() ? bloginfo('description') : wp_get_document_title(); ?>
   </title>
   <?php wp_head(); ?>
 </head>
