@@ -5,7 +5,7 @@ GEM
     backports (3.6.8)
     colorator (1.1.0)
     diff-lcs (1.2.5)
-    ffi (1.9.14-x86-mingw32)
+    ffi ~> 1.9.24
     forwardable-extended (2.6.0)
     jekyll (3.2.1)
       colorator (~> 1.0)
