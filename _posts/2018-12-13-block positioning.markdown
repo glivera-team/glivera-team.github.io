@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Позиционирование блоков"
-date:   2018-12-13 10:00:00 +0300
+date:   2018-12-12 16:16:00 +0300
 categories: how-to
 lang: ru
 autor:  glivera-team
@@ -21,7 +21,7 @@ autor:  glivera-team
 <img alt="how-to: позиционирование блоков" src="../../../../i/block_positioning_3.jpg">
 
 ### Итог неправильного способа
-<iframe height='265' scrolling='no' title='Positioning block bad implementation' src='//codepen.io/edudiak/embed/MzzVzg/?height=265&theme-id=0&default-tab=css,result' frameborder='no' allowtransparency='true' allowfullscreen='true' style='width: 100%;'>See the Pen <a href='https://codepen.io/edudiak/pen/MzzVzg/'>Positioning block bad implementation</a> by Evgen (<a href='https://codepen.io/edudiak'>@edudiak</a>) on <a href='https://codepen.io'>CodePen</a>.
+<iframe height='600' scrolling='no' title='Positioning block bad implementation' src='//codepen.io/edudiak/embed/MzzVzg/?height=600&theme-id=0&default-tab=css,result' frameborder='no' allowtransparency='true' allowfullscreen='true' style='width: 100%;'>See the Pen <a href='https://codepen.io/edudiak/pen/MzzVzg/'>Positioning block bad implementation</a> by Evgen (<a href='https://codepen.io/edudiak'>@edudiak</a>) on <a href='https://codepen.io'>CodePen</a>.
 </iframe>
 
 ### Минусы этого способа
@@ -49,5 +49,5 @@ autor:  glivera-team
 <img alt="how-to: позиционирование блоков" src="../../../../i/block_positioning_7.jpg">
 
 ### Итог правильного способа
-<iframe height='265' scrolling='no' title='Positioning block good implementation' src='//codepen.io/edudiak/embed/dQQegg/?height=265&theme-id=0&default-tab=css,result' frameborder='no' allowtransparency='true' allowfullscreen='true' style='width: 100%;'>See the Pen <a href='https://codepen.io/edudiak/pen/dQQegg/'>Positioning block good implementation</a> by Evgen (<a href='https://codepen.io/edudiak'>@edudiak</a>) on <a href='https://codepen.io'>CodePen</a>.
+<iframe height='600' scrolling='no' title='Positioning block good implementation' src='//codepen.io/edudiak/embed/dQQegg/?height=600&theme-id=0&default-tab=css,result' frameborder='no' allowtransparency='true' allowfullscreen='true' style='width: 100%;'>See the Pen <a href='https://codepen.io/edudiak/pen/dQQegg/'>Positioning block good implementation</a> by Evgen (<a href='https://codepen.io/edudiak'>@edudiak</a>) on <a href='https://codepen.io'>CodePen</a>.
 </iframe>
