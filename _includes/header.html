@@ -27,11 +27,17 @@
                 {% if page.lang contains 'ru' %}
                 {% if my_page.lang contains 'ru' %}
                 <a class="page-link" href="{{ my_page.url | prepend: site.baseurl }}">{{ my_page.title }}</a>
-                <a class="page-link" href="{{ site.baseurl }}/en/">EN</a>
                 {% endif %}
                 {% endif %}
 
                 {% endfor %}
+
+                {% if page.lang contains 'ru' %}
+                <a class="page-link" href="{{ site.baseurl }}/en/">EN</a>
+                {% endif %}
+                {% if page.lang contains 'en' %}
+                <a class="page-link" href="{{ site.baseurl }}">RU</a>
+                {% endif %}
             </div>
         </nav>
 
