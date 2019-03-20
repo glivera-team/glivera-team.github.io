@@ -17,7 +17,7 @@ What we need from sprites:
 1. Flexible management of the size, colour and behaviour (hover, focus, etc) of  an icon
 2. Automation, minimum of manual work
 3. Loading only the necessary icons on the page
-4. Easy insertion of icons into page layout (I use jade for templating html)
+4. Easy insertion of icons into page layout (we use pug for templating html)
 
 Folder structure:
 
@@ -57,7 +57,7 @@ var svgSprite = require('gulp-svg-sprite'),
 
 ## Cooking sprite
 
-Create an svg-file with the tags <b>symbol</b>.
+Create an svg-file with the tags `symbol`.
 
 {% highlight javascript %}
 gulp.task('svgSpriteBuild', function () {
@@ -99,7 +99,7 @@ gulp.task('svgSpriteBuild', function () {
 
 Let's see what is happening here in parts.
 
-We point where we need to get the icons and minify them. The variable assetsDir is for convenience.
+We point where we need to get the icons and minify them. The variable `assetsDir` is for convenience.
 
 {% highlight javascript %}
 return gulp.src(assetsDir + 'i/icons/*.svg')
@@ -124,7 +124,7 @@ Remove the `style`, `fill` and `stroke` attributes from the icons so that they d
 }))
 {% endhighlight %}
 
-However, this plugin has one bug - sometimes it converts the symbol '>' to the encoding `'& gt;'`.
+However, this plugin has one bug - sometimes it converts the symbol `'>'` to the encoding `'& gt;'`.
 
 This problem is solved by the following piece of task:
 
@@ -141,7 +141,7 @@ Now we will make a sprite from the one we have got and put it in a folder:
 			sprite: "../sprite.svg",
 			render: {
 				scss: {
-					dest:'../../../sass/_sprite.scss',
+					dest:"../../../sass/_sprite.scss",
 					template: assetsDir + "sass/templates/_sprite_template.scss"
 				}
 			}
@@ -151,9 +151,9 @@ Now we will make a sprite from the one we have got and put it in a folder:
 .pipe(gulp.dest(assetsDir + 'i/sprite/'));
 {% endhighlight %}
 
-<b>dest:'../../../sass/_sprite.scss'</b> - we announced where to generate styles for the sprite.
+<b>dest:"../../../sass/_sprite.scss"</b> - we announced where to generate styles for the sprite.
 
-<b>template: assetsDir + "sass/templates/_sprite_template.scss"</b> - mplate code on the basis of which styles for the sprite will be generated.
+<b>template: assetsDir + "sass/templates/_sprite_template.scss"</b> - template code on the basis of which styles for the sprite will be generated.
 
 <b>sprite.svg</b> - is our sprite. Inside it will contain the following (a couple of icons are shown for simplicity):
 
@@ -299,4 +299,6 @@ That's it, we have got a working system for connecting icons via sprites, but th
 ## Incorrect Icons
 
 Unfortunately, not all designers make icons on a pixel grid. In this case, the icons will be “blurred”. If you export icons from Illustrator, you need to enable the pixel grid and adjust the size and location of the icon to the pixel grid. If you work in ready-made svg-files, use the [iconmoon](https://icomoon.io/app/) service to properly adjust them. It is also important to convert the stroke for icons. You can read how to do this in the <a href="https://icomoon.io/#docs/stroke-to-fill" target="_blank">iconmoon documentation</a>.
+
+
 That's all.
