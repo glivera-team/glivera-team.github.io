@@ -3,7 +3,7 @@ layout: post
 title:  "Creating a stylegide with sc5"
 excerpt: "Creating a stylegide with sc5"
 keywords: "layout, frontend, design, sc5, styleguide, html, css, javascript"
-date:   2019-03-17 11:55:00 +0300
+date:   2019-03-18 11:55:00 +0300
 categories: structure
 lang: en
 autor:  Andrey Boyko
