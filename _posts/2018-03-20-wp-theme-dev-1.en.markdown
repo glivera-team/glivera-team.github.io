@@ -3,7 +3,7 @@ layout: post
 title:  "Developing of WordPress theme – Main definitions"
 date:   2018-03-20
 categories: wordpress
-lang: eng
+lang: en
 autor:  glivera-team
 ---
 ## Main definitions

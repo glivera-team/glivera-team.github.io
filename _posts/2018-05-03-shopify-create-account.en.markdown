@@ -3,7 +3,7 @@ layout: post
 title:  "Shopify: registration of a new user"
 date:   2018-05-03 10:00:00 +0300
 categories: shopify
-lang: eng
+lang: en
 autor:  glivera-team
 ---
 

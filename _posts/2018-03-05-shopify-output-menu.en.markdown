@@ -3,7 +3,7 @@ layout: post
 title:  "Shopify: Displaying the menu"
 date:   2018-03-05 9:25:00 +0300
 categories: shopify
-lang: eng
+lang: en
 autor:  glivera-team
 ---
 

@@ -3,7 +3,7 @@ layout: post
 title:  "Shopify: adding additional information about the user"
 date:   2018-05-16 12:00:00 +0300
 categories: shopify
-lang: eng
+lang: en
 autor:  glivera-team
 ---
 

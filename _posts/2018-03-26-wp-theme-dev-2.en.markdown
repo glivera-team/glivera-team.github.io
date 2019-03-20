@@ -3,7 +3,7 @@ layout: post
 title:  "WordPress theme development – Connect your styles and scripts"
 date:   2018-03-26
 categories: wordpress
-lang: eng
+lang: en
 autor:  glivera-team
 ---
 

@@ -7,7 +7,7 @@
 
 # Site settings
 title: Блог команды glivera-team о верстке
-title_eng: Glivera-team frontend blog
+title_en: Glivera-team frontend blog
 email: glivera28@gmail.com
 description: Статьи для html-верстальщиков и frontend-разработчиков
 keywords: "html,css,javascript,верстка,frontend,jade,sass,gulp"
