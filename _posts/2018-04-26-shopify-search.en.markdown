@@ -3,7 +3,7 @@ layout: post
 title:  "Shopify: add the site search"
 date:   2018-04-26 10:00:00 +0300
 categories: shopify
-lang: eng
+lang: en
 autor:  glivera-team
 ---
 

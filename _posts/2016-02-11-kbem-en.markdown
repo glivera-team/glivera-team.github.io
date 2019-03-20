@@ -3,7 +3,7 @@ layout: post
 title:  "CBEM - Container, Block, Element, Modifier"
 date:   2016-02-11 08:24:00 +0300
 categories: structure
-lang: eng
+lang: en
 autor:  Andrey Boyko
 ---
 

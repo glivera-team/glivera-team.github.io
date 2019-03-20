@@ -3,7 +3,7 @@ layout: post
 title:  "Spotify. Work with sections"
 date:   2017-11-17 16:00:00 +0300
 categories: spotify
-lang: eng
+lang: en
 autor: glivera-team
 ---
 

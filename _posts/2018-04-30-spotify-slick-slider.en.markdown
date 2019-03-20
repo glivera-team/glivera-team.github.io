@@ -3,7 +3,7 @@ layout: post
 title:  "Shopify. Connecting Slick slider"
 date:   2018-05-10 10:00:00 +0300
 categories: shopify
-lang: eng
+lang: en
 autor:  glivera-team
 ---
 
