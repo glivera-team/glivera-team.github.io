@@ -1,0 +1,92 @@
+---
+layout: post
+title:  "Web fonts 2016. Connect and use."
+excerpt: "Web fonts 2016. Connect and use."
+keywords: "fonts, layout, frontend, typo, html, css, javascript"
+date:   2016-03-03 10:32:00 +0300
+categories: fonts
+lang: en
+autor:  Andrey Boyko
+---
+Hi, developer!
+
+Previously, in order to connect an off-site font to the site, the @ font-face directive was used with a link to the font in several formats (eot, svg, ttf, woff, etc.). In 2015, it became possible to use font caching in localstorage, and there was also no need to use many different formats. That’s what we are going to talk about in this article – how to use web fonts in 2016 in the least time-consuming and convenient way.
+
+So, the main point of the method:
+
+1. Take fonts in woff or woff2 format
+2. Automatically convert fonts to base64 (gulp)
+3. Asynchronously load fonts on the page through js-function.
+4. When you first load the page, the fonts are loaded for the first time, which will cause a slight “blink”
+5. During the next downloads, the font will come from localstorage, “there won’t be any blinks
+
+## Conversion
+
+We will use the gulp-plugin <a target="_blank" href="https://www.npmjs.com/package/gulp-cssfont64">gulp-cssfont64</a> for the conversion.
+
+gulpfile.js
+
+{% highlight javascript %}
+cssfont64 = require('gulp-cssfont64');
+
+gulp.task('fontsConvert', function () {
+	return gulp.src([assetsDir + 'fonts/*.woff', assetsDir + 'fonts/*.woff2'])
+		.pipe(cssfont64())
+		.pipe(gulp.dest(outputDir + 'styles/'))
+		.pipe(browserSync.stream());
+});
+{% endhighlight %}
+
+In the task, we take the woff and woff2 fonts, the rest are not needed. In other words, we take one OR another format for each font. Browsers that do not support woff will render fonts by default, we will talk  about them later.
+
+Add watcher to convert fonts automatically:
+
+{% highlight javascript %}
+gulp.task('watch', function () {
+	gulp.watch(assetsDir + 'fonts/**/*', ['fontsConvert']);
+});
+{% endhighlight %}
+
+Make sure your fonts are converted. For example, we’ve got <mark>dist/styles/roboto-blackitalic.css</mark> file from the <mark>assets/fonts/roboto-blackitalic.woff</mark>.
+
+## Asynchronous loading
+
+To download the fonts we will use a separate js-file. You will need to connect it before loading the styles:
+
+{% highlight html %}
+    <script src="js/font-loader.js"></script>
+	<link rel="stylesheet" media="all" href="styles/main_global.css">
+{% endhighlight %}
+
+The content of the `font-loader.js` file:
+
+{% highlight javascript %}
+function loadFont(a,b,c,d){function e(){if(!window.FontFace)return!1;var a=new FontFace("t",'url("data:application/font-woff2,") format("woff2")',{}),b=a.load();try{b.then(null,function(){})}catch(c){}return"loading"===a.status}var f=navigator.userAgent,g=!window.addEventListener||f.match(/(Android (2|3|4.0|4.1|4.2|4.3))|(Opera (Mini|Mobi))/)&&!f.match(/Chrome/);if(!g){var h={};try{h=localStorage||{}}catch(i){}var j="x-font-"+a,k=j+"url",l=j+"css",m=h[k],n=h[l],o=document.createElement("style");if(o.rel="stylesheet",document.head.appendChild(o),!n||m!==b&&m!==c){var p=c&&e()?c:b,q=new XMLHttpRequest;q.open("GET",p),q.onload=function(){q.status>=200&&q.status<400&&(h[k]=p,h[l]=q.responseText,d||(o.textContent=q.responseText))},q.send()}else o.textContent=n}}
+
+loadFont('roboto-blackitalic', 'styles/roboto-blackitalic.css');
+{% endhighlight %}
+
+First, we declare a function to load the font, and then we fetch it with the arguments of the font name and the path to the css-file. If you need to connect one more font, fetch one more loadFont function.
+
+Next, you can apply your font in css. If you use a preprocessor, it is recommended to put the font names in variables. In my case, it can look like this:
+
+{% highlight scss %}
+$main_font:'roboto-blackitalic',sans-serif;
+html {
+	font: normal 10px/1.33 $main_font;
+}
+{% endhighlight %}
+
+How to name variables for fonts - the choice is yours.
+
+## Meanwhile, in the browser
+
+When you first load the page, your text will blink a bit. At first, the default font, that you specified in the variable, will be loaded (in our case sans-serif), and then the main font. In Chrome, a font download will appear on the Network tab:
+
+<img alt="" src="../../../../i/font-lesson-1.jpg">
+
+When you reload the page in the Network tab, the font download record will disappear. What is the reason? During the first download the font was placed in localStorage, and now the browser takes it from there, without making an extra request.
+
+<img alt="" src="../../../../i/font-lesson-2.jpg">
+
+That's all.
