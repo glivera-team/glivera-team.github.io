@@ -1,0 +1,437 @@
+---
+layout: post
+title:  "Getting started with  gulp.js"
+date:   2016-01-08 07:24:00 +0300
+categories: sass
+lang: en
+autor:  Andrey Boyko
+---
+Hi, developer!
+
+To automate routine, repetitive processes, we use gulp.js. We use the following features in our template:
+
+* compiling scss in css, pug in html
+* automatic tagging of vendor prefixes
+* image optimization
+* script concatenation
+* script and style compression
+* creation of icon fonts and svg sprites
+* html validation check
+
+These are basic features and there are a few more trivialities, but we’ll speak about them later. You can find the template of our team on the github (https://github.com/glivera-team/glivera-team-template)
+
+## Installation
+
+Gulp is the npm package for node.js, that’s why we install node.js (https://nodejs.org/en/). Install as a simple program.
+
+If you have Windows, you need to install 2 versions of python (https://www.python.org/downloads/release/python-2710/) and Microsoft Visual Studio (https://www.microsoft.com/en-gb/ download / details.aspx? id = 44914). They are necessary to work with some packages, most often installation problems appear because of their absence.
+
+After installation, go to the project folder and enter in the console:
+{% highlight html %}
+npm init
+{% endhighlight %}
+
+You will see various messages and you can answer all affirmatively. This initialization procedure is required to install packages. After its completion, enter into the console:
+{% highlight html %}
+npm install gulp
+{% endhighlight %}
+
+After executing this command, you will see the node_modules folder in your project. This is the folder for storing npm packages. In this case, you installed the package locally, i.e. all gulp files are in the project. As you can see, it takes some time. In order not to install a bunch of modules locally every time, install packages globally, and then make a link to them in the project. How to do this:
+{% highlight html %}
+npm install gulp -g
+npm link gulp
+{% endhighlight %}
+
+We have installed gulp globally and then made a link to the project. All the commands are run from the project folder.
+
+Next, let’s install the remaining packages and link them together:
+{% highlight html %}
+npm install rimraf gulp-pug gulp-sass gulp-inline-image gulp-autoprefixer gulp-plumber gulp-directory-sync browser-sync gulp-concat -g
+npm link rimraf gulp-pug gulp-sass gulp-inline-image gulp-autoprefixer gulp-plumber gulp-directory-sync browser-sync gulp-concat -g
+npm install gulp-html5-lint gulp-purifycss gulp-uglify gulp-imagemin imagemin-pngquant gulp-csso -g
+npm link gulp-html5-lint gulp-purifycss gulp-uglify gulp-imagemin imagemin-pngquant gulp-csso
+{% endhighlight %}
+At first, I install plugins for development and then for building. If you have problems installing a plugin, try to install it separately.
+
+## Writing gulpfile
+Create gulpfile.js  at the root of your project. Gulp will not work  without this file. It describes all the tasks listed at the beginning of the article. 
+At first, it is necessary to write dependencies for the project.
+
+gulpfile.js
+{% highlight javascript %}
+// plugins for development
+var gulp = require('gulp'),
+	rimraf = require('rimraf'),
+	pug = require('gulp-pug'),
+	sass = require('gulp-sass'),
+	inlineimage = require('gulp-inline-image'),
+	prefix = require('gulp-autoprefixer'),
+	plumber = require('gulp-plumber'),
+	dirSync = require('gulp-directory-sync'),
+	browserSync = require('browser-sync').create(),
+	concat = require('gulp-concat');
+
+// plugins for build
+var purify = require('gulp-purifycss'),
+	uglify = require('gulp-uglify'),
+	imagemin = require('gulp-imagemin'),
+	pngquant = require('imagemin-pngquant'),
+	csso = require('gulp-csso');
+
+//plugins for testing
+var html5Lint = require('gulp-html5-lint');
+{% endhighlight %}
+
+Usually there is information on how to prescribe a dependency in the plugin repository.
+Next, declare variables for the project folders:
+{% highlight javascript %}
+var assetsDir = 'assets/';
+var outputDir = 'dist/';
+var buildDir = 'build/';
+{% endhighlight %}
+
+We will use them in the tasks. Let's write the first task - to compile pug
+{% highlight javascript %}
+gulp.task('pug', function () {// Name of the task
+	gulp.src([assetsDir + 'pug/*.pug', '!' + assetsDir + 'pug/_*.pug'])//take the files
+		.pipe(plumber())
+		.pipe(pug({pretty: true}))// compile pug
+		.pipe(gulp.dest(outputDir))// where to put html
+		.pipe(browserSync.stream());
+});
+{% endhighlight %}
+
+Now, to compile pug, just enter into the console:
+{% highlight html %}
+gulp pug
+{% endhighlight %}
+
+Do the same for sass
+{% highlight javascript %}
+gulp.task('sass', function () {// Name of the task
+	gulp.src([assetsDir + 'sass/**/*.scss', '!' + assetsDir + 'sass/**/_*.scss'])//take the files
+		.pipe(plumber())
+		.pipe(sass())// compile sass
+		.pipe(inlineimage())
+		.pipe(prefix('last 3 versions'))
+		.pipe(gulp.dest(outputDir + 'styles/'))// where to put css
+		.pipe(browserSync.stream());
+});
+{% endhighlight %}
+
+{% highlight html %}
+gulp sass
+{% endhighlight %}
+
+Step by step, you will get used to the syntax. Usually there are examples of tasks in the gulp module repository. Pay attention to the line
+{% highlight javascript %}
+.pipe(plumber())
+{% endhighlight %}
+
+If a compilation error occurs, the gulp will “fly out”, and you will need to restart it. But with the plumber plugin this will not happen. In order to restart the browser after each task pass, use the command:
+{% highlight javascript %}
+.pipe(browserSync.stream());
+{% endhighlight %}
+
+Use the following task to concatenate scripts:
+{% highlight javascript %}
+gulp.task('jsConcat', function () {
+	return gulp.src(assetsDir + 'js/all/**/*.js')
+		.pipe(concat('all.js', {newLine: ';'}))
+		.pipe(gulp.dest(outputDir + 'js/'))
+		.pipe(browserSync.stream());
+});
+{% endhighlight %}
+
+It will connect all the tasks from the js/all folder into one script. Usually these are different plugins.
+
+Tasks for synchronizing project folders between each other:
+{% highlight javascript %}
+//-------------------------------------------------Synchronization
+gulp.task('imageSync', function () {
+	return gulp.src('')
+		.pipe(plumber())
+		.pipe(dirSync(assetsDir + 'i/', outputDir + 'i/', {printSummary: true}))
+		.pipe(browserSync.stream());
+});
+
+gulp.task('fontsSync', function () {
+	return gulp.src('')
+		.pipe(plumber())
+		.pipe(dirSync(assetsDir + 'fonts/', outputDir + 'fonts/', {printSummary: true}))
+		.pipe(browserSync.stream());
+});
+
+gulp.task('jsSync', function () {
+	return gulp.src(assetsDir + 'js/*.js')
+		.pipe(plumber())
+		.pipe(gulp.dest(outputDir + 'js/'))
+		.pipe(browserSync.stream());
+});
+//-------------------------------------------------Synchronization###
+{% endhighlight %}
+
+In order to track changes in the project and run tasks, we automatically use gulp.watch.
+{% highlight javascript %}
+gulp.task('watch', function () {
+	gulp.watch(assetsDir + 'pug/**/*.pug', ['pug']);
+	gulp.watch(assetsDir + 'sass/**/*.scss', ['sass']);
+	gulp.watch(assetsDir + 'js/**/*.js', ['jsSync']);
+	gulp.watch(assetsDir + 'js/all/**/*.js', ['jsConcat']);
+	gulp.watch(assetsDir + 'i/**/*', ['imageSync']);
+	gulp.watch(assetsDir + 'fonts/**/*', ['fontsSync']);
+});
+{% endhighlight %}
+
+We use browser-sync to update the browser and local host.
+{% highlight javascript %}
+gulp.task('browser-sync', function () {
+	browserSync.init({
+		port: 1337,
+		server: {
+			baseDir: outputDir
+		}
+	});
+});
+{% endhighlight %}
+
+Now, to start all this stuff we will write the default task gulp
+{% highlight javascript %}
+gulp.task('default', ['pug', 'sass', 'imageSync', 'fontsSync', 'jsConcat', 'jsSync', 'watch', 'browser-sync']);
+{% endhighlight %}
+
+Here we indicate which tasks should be run together. Thanks to the watch tusk, the gulp will not finish, but will wait for changes.
+
+To run the default task, enter
+{% highlight html %}
+gulp
+{% endhighlight %}
+
+A browser will open and everything will be compiled and updated automatically.
+
+Now we will write the project build:
+{% highlight javascript %}
+
+//---------------------------------building final project folder
+//clean build folder
+gulp.task('cleanBuildDir', function (cb) {
+	rimraf(buildDir, cb);
+});
+
+
+//minify images
+gulp.task('imgBuild', function () {
+	return gulp.src(outputDir + 'i/**/*')
+		.pipe(imagemin({
+			progressive: true,
+			svgoPlugins: [{removeViewBox: false}],
+			use: [pngquant()]
+		}))
+		.pipe(gulp.dest(buildDir + 'i/'))
+});
+
+//copy fonts
+gulp.task('fontsBuild', function () {
+	return gulp.src(outputDir + 'fonts/**/*')
+		.pipe(gulp.dest(buildDir + 'fonts/'))
+});
+
+//copy html
+gulp.task('htmlBuild', function () {
+	return gulp.src(outputDir + '**/*.html')
+		.pipe(gulp.dest(buildDir))
+});
+
+//copy and minify js
+gulp.task('jsBuild', function () {
+	return gulp.src(outputDir + 'js/**/*')
+		.pipe(uglify())
+		.pipe(gulp.dest(buildDir + 'js/'))
+});
+
+//copy, minify css
+gulp.task('cssBuild', function () {
+	return gulp.src(outputDir + 'styles/**/*')
+		.pipe(purify([outputDir + 'js/**/*', outputDir + '**/*.html']))
+		.pipe(csso())
+		.pipe(gulp.dest(buildDir + 'styles/'))
+});
+
+gulp.task('build', ['cleanBuildDir'], function () {
+	gulp.start('imgBuild', 'fontsBuild', 'htmlBuild', 'jsBuild', 'cssBuild');
+});
+{% endhighlight %}
+
+Run
+{% highlight html %}
+gulp build
+{% endhighlight %}
+
+And finally, the task for validation:
+{% highlight javascript %}
+gulp.task('validation', function () {
+	return gulp.src(buildDir + '**/*.html')
+		.pipe(html5Lint());
+});
+{% endhighlight %}
+
+Final gulpfile:
+{% highlight javascript %}
+// plugins for development
+var gulp = require('gulp'),
+	rimraf = require('rimraf'),
+	pug = require('gulp-pug'),
+	sass = require('gulp-sass'),
+	inlineimage = require('gulp-inline-image'),
+	prefix = require('gulp-autoprefixer'),
+	plumber = require('gulp-plumber'),
+	dirSync = require('gulp-directory-sync'),
+	browserSync = require('browser-sync').create(),
+	concat = require('gulp-concat');
+
+// plugins for build
+var purify = require('gulp-purifycss'),
+	uglify = require('gulp-uglify'),
+	imagemin = require('gulp-imagemin'),
+	pngquant = require('imagemin-pngquant'),
+	csso = require('gulp-csso');
+
+//plugins for testing
+var html5Lint = require('gulp-html5-lint');
+
+var assetsDir = 'assets/';
+var outputDir = 'dist/';
+var buildDir = 'build/';
+
+//----------------------------------------------------Compiling
+gulp.task('pug', function () {
+	gulp.src([assetsDir + 'pug/*.pug', '!' + assetsDir + 'pug/_*.pug'])
+		.pipe(plumber())
+		.pipe(pug({pretty: true}))
+		.pipe(gulp.dest(outputDir))
+		.pipe(browserSync.stream());
+});
+
+gulp.task('sass', function () {
+	gulp.src([assetsDir + 'sass/**/*.scss', '!' + assetsDir + 'sass/**/_*.scss'])
+		.pipe(plumber())
+		.pipe(sass())
+		.pipe(inlineimage())
+		.pipe(prefix('last 3 versions'))
+		.pipe(gulp.dest(outputDir + 'styles/'))
+		.pipe(browserSync.stream());
+});
+
+gulp.task('jsConcat', function () {
+	return gulp.src(assetsDir + 'js/all/**/*.js')
+		.pipe(concat('all.js', {newLine: ';'}))
+		.pipe(gulp.dest(outputDir + 'js/'))
+		.pipe(browserSync.stream());
+});
+
+//----------------------------------------------------Compiling###
+
+//-------------------------------------------------Synchronization
+gulp.task('imageSync', function () {
+	return gulp.src('')
+		.pipe(plumber())
+		.pipe(dirSync(assetsDir + 'i/', outputDir + 'i/', {printSummary: true}))
+		.pipe(browserSync.stream());
+});
+
+gulp.task('fontsSync', function () {
+	return gulp.src('')
+		.pipe(plumber())
+		.pipe(dirSync(assetsDir + 'fonts/', outputDir + 'fonts/', {printSummary: true}))
+		.pipe(browserSync.stream());
+});
+
+gulp.task('jsSync', function () {
+	return gulp.src(assetsDir + 'js/*.js')
+		.pipe(plumber())
+		.pipe(gulp.dest(outputDir + 'js/'))
+		.pipe(browserSync.stream());
+});
+//-------------------------------------------------Synchronization###
+
+
+//watching files and run tasks
+gulp.task('watch', function () {
+	gulp.watch(assetsDir + 'pug/**/*.pug', ['pug']);
+	gulp.watch(assetsDir + 'sass/**/*.scss', ['sass']);
+	gulp.watch(assetsDir + 'js/**/*.js', ['jsSync']);
+	gulp.watch(assetsDir + 'js/all/**/*.js', ['jsConcat']);
+	gulp.watch(assetsDir + 'i/**/*', ['imageSync']);
+	gulp.watch(assetsDir + 'fonts/**/*', ['fontsSync']);
+});
+
+//livereload and open project in browser
+gulp.task('browser-sync', function () {
+	browserSync.init({
+		port: 1337,
+		server: {
+			baseDir: outputDir
+		}
+	});
+});
+
+
+//---------------------------------building final project folder
+//clean build folder
+gulp.task('cleanBuildDir', function (cb) {
+	rimraf(buildDir, cb);
+});
+
+
+//minify images
+gulp.task('imgBuild', function () {
+	return gulp.src(outputDir + 'i/**/*')
+		.pipe(imagemin({
+			progressive: true,
+			svgoPlugins: [{removeViewBox: false}],
+			use: [pngquant()]
+		}))
+		.pipe(gulp.dest(buildDir + 'i/'))
+});
+
+//copy fonts
+gulp.task('fontsBuild', function () {
+	return gulp.src(outputDir + 'fonts/**/*')
+		.pipe(gulp.dest(buildDir + 'fonts/'))
+});
+
+//copy html
+gulp.task('htmlBuild', function () {
+	return gulp.src(outputDir + '**/*.html')
+		.pipe(gulp.dest(buildDir))
+});
+
+//copy and minify js
+gulp.task('jsBuild', function () {
+	return gulp.src(outputDir + 'js/**/*')
+		.pipe(uglify())
+		.pipe(gulp.dest(buildDir + 'js/'))
+});
+
+//copy, minify css
+gulp.task('cssBuild', function () {
+	return gulp.src(outputDir + 'styles/**/*')
+		.pipe(purify([outputDir + 'js/**/*', outputDir + '**/*.html']))
+		.pipe(csso())
+		.pipe(gulp.dest(buildDir + 'styles/'))
+});
+
+//testing your build files
+gulp.task('validation', function () {
+	return gulp.src(buildDir + '**/*.html')
+		.pipe(html5Lint());
+});
+
+gulp.task('default', ['pug', 'sass', 'imageSync', 'fontsSync', 'jsConcat', 'jsSync', 'watch', 'browser-sync']);
+
+gulp.task('build', ['cleanBuildDir'], function () {
+	gulp.start('imgBuild', 'fontsBuild', 'htmlBuild', 'jsBuild', 'cssBuild');
+});
+{% endhighlight %}
+
+That's all.
