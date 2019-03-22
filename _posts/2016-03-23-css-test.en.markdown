@@ -1,0 +1,416 @@
+---
+layout: post
+title:  "Automatic layout testing with BackstopJS"
+excerpt: "Automatic layout testing with BackstopJS"
+keywords: "layout, frontend, BackstopJS, testing, html, css , javascript"
+date:   2016-03-23 08:24:00 +0300
+categories: structure
+lang: en
+autor:  Andrey Boyko
+---
+Hi, developer!
+
+A frequent problem of a layout designer is that he corrects styles in one place, but he sees changes in several places. And the layout designer notices it too late. In this post, I will talk about regression testing. The essence of the method is that you take screenshots of the site (not manually of course), and then after making any edits you make new screenshots and compare them with the previous ones. If there are any differences - the tests talk about it and show it. You can take screenshots both of sites and individual blocks.
+
+For this method we need:
+
+* <b>Gulp</b> - build system. If you are not familiar with the gulp, you can read the article <a href="http://glivera-team.github.io/sass/2016/01/07/gulp.html" target="_blank">"Getting Started with gulp" in our blog"</a>.
+* <b>PhantomJS</b> - these are all WebKit goodies from a console running on JS and supporting various standards and technologies: DOM, CSS, JSON, Canvas and SVG. Technically, it is a regular browser, but without a user interface.
+* <b>CasperJS</b> - a tool for writing navigation scripts and for testing.
+* <b>BackstopJS</b> - library allows you to automate the tasks listed above.
+
+## Installation
+Install gulp:
+{% highlight html %}
+npm install gulp -g
+{% endhighlight %}
+
+Initialize npm at the root of your project:
+{% highlight html %}
+npm init
+{% endhighlight %}
+
+Install PhantomJS:
+{% highlight html %}
+npm install phantomjs
+{% endhighlight %}
+
+CasperJS:
+{% highlight html %}
+npm install -g casperjs
+{% endhighlight %}
+
+CasperJS also requires the installation <a href="https://www.python.org/downloads/release/python-2710/" target="_blank">of python</a>, a version that is not lower than 2.7.
+
+Install BackstopJS via bower:
+{% highlight html %}
+bower install backstopjs
+{% endhighlight %}
+
+Install the backstopjs npm dependencies:
+{% highlight html %}
+cd bower_components/backstopjs
+npm install
+{% endhighlight %}
+
+## Test run
+
+Now all commands are launched from the <b>bower_components/backstopjs</b>. First, let’s create a config for BackstopJS. To do this, use the following command:
+{% highlight html %}
+gulp genConfig
+{% endhighlight %}
+
+The command creates a json file in the root of your project - backstop.json with the following contents:
+{% highlight json %}
+{
+  "viewports": [
+    {
+      "name": "phone",
+      "width": 320,
+      "height": 480
+    },
+    {
+      "name": "tablet_v",
+      "width": 568,
+      "height": 1024
+    },
+    {
+      "name": "tablet_h",
+      "width": 1024,
+      "height": 768
+    }
+  ],
+  "scenarios": [
+    {
+      "label": "My Homepage",
+      "url": "http://getbootstrap.com",
+      "hideSelectors": [],
+      "removeSelectors": [
+        "#carbonads-container"
+      ],
+      "selectors": [
+        "header",
+        "main",
+        "body .bs-docs-featurette:nth-of-type(1)",
+        "body .bs-docs-featurette:nth-of-type(2)",
+        "footer",
+        "body"
+      ],
+      "readyEvent": null,
+      "delay": 500,
+      "misMatchThreshold" : 0.1,
+      "onBeforeScript": "onBefore.js",
+      "onReadyScript": "onReady.js"
+    }
+  ],
+  "paths": {
+    "bitmaps_reference": "../../backstop_data/bitmaps_reference",
+    "bitmaps_test": "../../backstop_data/bitmaps_test",
+    "compare_data": "../../backstop_data/bitmaps_test/compare.json",
+    "casper_scripts": "../../backstop_data/casper_scripts"
+  },
+  "engine": "phantomjs",
+  "report": ["CLI", "browser"],
+  "cliExitOnFail": false,
+  "casperFlags": [],
+  "debug": false,
+  "port": 3001
+}
+{% endhighlight %}
+
+We will return to this file a bit later, and for now, pay attention to the following parameter:
+{% highlight html %}
+"port": 3001
+{% endhighlight %}
+
+This is the port number where our screen comparison page will be located. If you use browsersync on a project, I advise you to change the port number (so that project browsersync does not conflict with the browsersync library):
+{% highlight html %}
+"port": 3002
+{% endhighlight %}
+
+Next step, run the test server (also from the bower_components / backstopjs folder):
+{% highlight html %}
+gulp start
+{% endhighlight %}
+
+This command starts the test server. In the browser, open the page <a href="http://localhost:3002/compare" target="_blank">http://localhost:3002/compare</a>.
+
+You should see something like this:
+<img alt="" src="../../../../i/backstop-1.jpg">
+We have not made a single test so far.
+
+## Making the original screenshots
+First of all, in the config file, we need to describe at what permissions we want to get snapshots.
+
+backstop.json:
+{% highlight json %}
+{
+"viewports": [
+    {
+      "name": "phone",
+      "width": 320,
+      "height": 480
+    },
+    {
+      "name": "tablet_v",
+      "width": 568,
+      "height": 1024
+    },
+    {
+      "name": "tablet_h",
+      "width": 1024,
+      "height": 768
+    }
+  ]
+}
+{% endhighlight %}
+
+Let us add another resolution - for the desktop:
+{% highlight json %}
+{
+"viewports": [
+    {
+      "name": "phone",
+      "width": 320,
+      "height": 480
+    },
+    {
+      "name": "tablet_v",
+      "width": 568,
+      "height": 1024
+    },
+    {
+      "name": "tablet_h",
+      "width": 1024,
+      "height": 768
+    },
+    {
+      "name": "desctop",
+      "width": 1280,
+      "height": 1024
+    }
+  ]
+}
+{% endhighlight %}
+
+Also, describe the screenshots of which blocks we need.
+{% highlight json %}
+{
+"selectors": [
+        ".wrapper",
+		".header"
+    ]
+}
+{% endhighlight %}
+
+Describe the blocks that we don’t  want to see in the screenshots, for example, the browsersync widget:
+{% highlight json %}
+{
+"removeSelectors": [
+				".widget_wrap",
+				"#__bs_notify__"
+			]
+}			
+{% endhighlight %}			
+
+We also write the page address in the url parameter (in my case it is http: // localhost: 1337). Final backstop.json:
+{% highlight json %}
+{
+	"viewports": [
+		{
+			"name": "phone",
+			"width": 320,
+			"height": 480
+		},
+		{
+			"name": "tablet_v",
+			"width": 568,
+			"height": 1024
+		},
+		{
+			"name": "tablet_h",
+			"width": 1024,
+			"height": 768
+		}
+	],
+	"scenarios": [
+		{
+			"label": "My Homepage",
+			"url": "http://localhost:1337",
+			"hideSelectors": [],
+			"removeSelectors": [
+				".widget_wrap",
+				"#__bs_notify__"
+			],
+			"selectors": [
+				".wrapper",
+				".header"
+			],
+			"readyEvent": null,
+			"delay": 500,
+			"misMatchThreshold": 0.1,
+			"onBeforeScript": "onBefore.js",
+			"onReadyScript": "onReady.js"
+		}
+	],
+	"paths": {
+		"bitmaps_reference": "../../backstop_data/bitmaps_reference",
+		"bitmaps_test": "../../backstop_data/bitmaps_test",
+		"compare_data": "../../backstop_data/bitmaps_test/compare.json",
+		"casper_scripts": "../../backstop_data/casper_scripts"
+	},
+	"engine": "phantomjs",
+	"report": [
+		"CLI",
+		"browser"
+	],
+	"cliExitOnFail": false,
+	"casperFlags": [],
+	"debug": false,
+	"port": 3002
+}
+
+{% endhighlight %}
+
+Next step, run the command to compile the initial screenshots:
+
+{% highlight html %}
+gulp reference
+{% endhighlight %}
+
+After it is worked out, in the root of your project, images will appear in the backstop_data / bitmaps_reference folder. These pictures are our sources, which we will compare new screenshots with in the future.
+
+## Testing
+
+To run the tests run the command:
+{% highlight html %}
+gulp test
+{% endhighlight %}
+
+The <a href="http://localhost:3002/compare/">http://localhost:3002/compare/</a> window will open automatically (if not, open manually) and the test results will be displayed. Since we have not changed anything yet, all the tests will be successful:
+<img alt="" src="../../../../i/backstop-2.jpg">
+In the table below, we clearly see the original screenshot, the new screenshot and the difference between them. Pay attention to the parameter misMatchPercentage - this is the percentage of screenshots mismatch.
+<img alt="" src="../../../../i/backstop-3.jpg">
+Now let's change something in the project, for example, I will change the colour of the title and its indent.
+
+It was:
+{% highlight css %}
+.promo_title {
+	font-size: 7.1rem;
+	color:greenyellow;
+	padding:4rem;
+}
+{% endhighlight %}
+
+It became:
+{% highlight css %}
+.promo_title {
+	font-size: 7.1rem;
+	color:black;
+	padding:5rem;
+}
+{% endhighlight %}
+
+Now run the test again:
+{% highlight html %}
+gulp test
+{% endhighlight %}
+
+We see that some tests did not pass:
+<img alt="" src="../../../../i/backstop-4.jpg">
+Below are the results of fallen tests:
+<img alt="" src="../../../../i/backstop-5.jpg">
+The misMatchPercentage (percentage of screenshots mismatch) is now quite large, that is why the tests have fallen. You can configure the mismatch threshold in the backstop.json config:
+{% highlight html %}
+{
+	"misMatchThreshold": 0.1
+}
+{% endhighlight %}
+
+## Page interaction
+If you need to take some action with the page before you take a screenshot, CasperJS will help you. You can read more detailed on how to work with it in the <a href="http://docs.casperjs.org/en/latest/" target="_blank">documentation</a>. For example, I want to open a pop-up window with a directory, and only then take a screenshot. In this case, we need to create the opening and waiting script in 1 second in the backstop_data / casper_scripts folder.
+
+openCatalog.js:
+{% highlight javascript %}
+module.exports = function(casper, scenario, vp) {
+	casper.click( '#catalog_show' );
+	casper.wait(1000);
+};
+{% endhighlight %}
+
+In the config script add script:
+{% highlight json %}
+{
+	"onReadyScript": "openCatalog.js"
+}
+{% endhighlight %}
+
+Now, the directory will open before taking a screenshot.
+
+## Taking a screenshot at the right time
+If you want to delay the time of the screenshot, you can do this using the delay parameter in the config (default 500). Or you can specify in your js-file when to take a screenshot. For example:
+{% highlight javascript %}
+$(window).on('load', function () {
+	console.log('page_loaded');
+});
+{% endhighlight %}
+
+And change the parameter "readyEvent" in the config:
+{% highlight json %}
+{
+	"readyEvent": "page_loaded"
+}
+{% endhighlight %}
+
+## Run the tasks from a root of the project
+Before that, we ran gulp-tasks from the bower_components / backstopjs folder. In order to run the task from the root, you can use the gulp-chug plugin.
+Let’s install:
+{% highlight html %}
+npm install gulp-chug --save-dev
+{% endhighlight %}
+
+Now we need to write a dependency:
+var chug = require('gulp-chug');
+then write a task:
+{% highlight javascript %}
+//gulp chug (BackstopJS: $ gulp reference)
+gulp.task( 'reference', function () {
+    gulp.src( './bower_components/backstopjs/gulpfile.js' )
+        .pipe( chug({
+        tasks:  [ 'reference' ]
+    }));
+});
+{% endhighlight %}
+
+At the end, we have the following in gulpfile:
+{% highlight javascript %}
+var gulp = require('gulp'),
+	chug = require('gulp-chug');
+
+gulp.task( 'genConfig', function () {
+	gulp.src( './bower_components/backstopjs/gulpfile.js' )
+		.pipe( chug({
+			tasks:  [ 'genConfig' ]
+		}));
+});
+
+gulp.task( 'reference', function () {
+	gulp.src( './bower_components/backstopjs/gulpfile.js' )
+		.pipe( chug({
+			tasks:  [ 'reference' ]
+		}));
+});
+
+gulp.task( 'test', function () {
+	gulp.src( './bower_components/backstopjs/gulpfile.js' )
+		.pipe( chug({
+			tasks:  [ 'test' ]
+		}));
+});
+{% endhighlight %}
+Now you can run commands from the project root.
+
+## Fonts
+At the time of writing this article, phantomJS has a problem with fonts in the modern format woff, woff2. In order for everything to work correctly, you need to connect older formats.
+
+That's all.
