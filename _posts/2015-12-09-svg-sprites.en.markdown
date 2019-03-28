@@ -23,12 +23,12 @@ Folder structure:
 
 {% highlight html %}
 ├── gulpfile.js                # gulpfile
-└──assets                      # здесь редактируем файлы
-    └── pug/                   # шаблонизатор html
-    └── sass/                  # стили
-    └── js/                    # скрипты
-    └── i/                     # картинки, сюда мы и будем вставлять спрайт
-└──dist                        # здесь получаем готовый проект
+└──assets                      # here we edit the files
+    └── pug/                   # template engine html
+    └── sass/                  # styles
+    └── js/                    # scripts
+    └── i/                     # pictures, here we will put the sprite
+└──dist                        # here we get the finished project
 {% endhighlight %}
 
 You can read and learn more about how our build works.  [in the repository](https://github.com/glivera-team/glivera-team-template).
