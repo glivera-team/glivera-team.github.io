@@ -65,7 +65,7 @@ const initialPageWidth = 1920;
 
 И список тестируемых страниц вносим в массив `pageList`:
 {% highlight html %}
-var pageList = [
+const pageList = [
 	'index',
 	'gallery',
 	'faq'
@@ -98,7 +98,7 @@ var pageList = [
 
 Создаем переменные для сохранения путей: 
 {% highlight javascript %}
-var beforeDir = 'test/before/',
+const beforeDir = 'test/before/',
 		afterDir = 'test/after/',
 		diffDir = 'test/difference/';
 {% endhighlight %}
@@ -191,7 +191,7 @@ gulp test-init
 Как и в предыдущем таске, создаем необходимые каталоги или очищаем их от старых файлов:
 
 {% highlight javascript %}
-var clearDir = [diffDir, afterDir, 'test/']
+const clearDir = [diffDir, afterDir, 'test/']
 
 if (!fs.existsSync(afterDir)){
 	fs.mkdirSync(afterDir);
@@ -241,7 +241,7 @@ function parse2(element, index, pageName) {
 }
 
 function doneReading(img1, img2, pageName) {
-	var diff = new PNG({width: img1.width, height: img1.height});
+	const diff = new PNG({width: img1.width, height: img1.height});
 
 	pixelmatch(img1.data, img2.data, diff.data, img1.width, img1.height, {threshold: 0.5});
 
@@ -256,13 +256,13 @@ function doneReading(img1, img2, pageName) {
 
 Создадим переменную, которую будем использовать как модификатор в именах изображений и страниц для избежания кеширования в браузере:
 {% highlight javascript %}
-var timeMod = new Date().getTime();
+const timeMod = new Date().getTime();
 {% endhighlight %}
 
 
 Далее создаем список всех страниц с именем и изображением
 {% highlight javascript %}
-var imgList = pageList.map(function(file, i) {
+const imgList = pageList.map(function(file, i) {
 	return '<li style="width: 49%; display: inline-block; list-style: none; background-color: #888;"><h2 style="font: 3vw sans-serif; margin: 0; padding: 1em; text-align: center;">' + pageList[i] + '</h2><img style="width: 100%; display: block;" src="difference/' + file + timeMod + '.png"/></li>'
 })
 {% endhighlight %}
@@ -274,7 +274,7 @@ fs.writeFile('test/index_test' + timeMod + '.html', imgList, function (err) {});
 
 И в завершение создаем локальный сервер с этой страницей и открываем ее в браузере Google Chrome:
 {% highlight javascript %}
-var fileServer = new staticN.Server();
+const fileServer = new staticN.Server();
 
 http.createServer(function (req, res) {
 	req.addListener('end', function () {
@@ -296,8 +296,8 @@ chromeLauncher.launch({
 Полностью таск создания новых скриншотов и сравнения их с эталонными выглядит так:
 {% highlight javascript %}
 gulp.task('test-compare', function() {
-	var timeMod = new Date().getTime();
-	var clearDir = [diffDir, afterDir, 'test/']
+	const timeMod = new Date().getTime();
+	const clearDir = [diffDir, afterDir, 'test/']
 
 	if (!fs.existsSync(afterDir)){
 		fs.mkdirSync(afterDir);
@@ -318,7 +318,7 @@ gulp.task('test-compare', function() {
 	});
 
 	function doneReading(img1, img2, pageName) {
-		var diff = new PNG({width: img1.width, height: img1.height});
+		const diff = new PNG({width: img1.width, height: img1.height});
 		pixelmatch(img1.data, img2.data, diff.data, img1.width, img1.height, {threshold: 0.5});
 		diff.pack().pipe(fs.createWriteStream(diffDir + pageName + timeMod + '.png'));
 		console.log(pageName + ' ---- page compared');
@@ -339,13 +339,13 @@ gulp.task('test-compare', function() {
 		img1[index] = await fs.createReadStream(afterDir + element + '.png').pipe(new PNG()).on('parsed', function() { parse2(element, index)});
 	})
 
-	var imgList = pageList.map(function(file, i) {
+	const imgList = pageList.map(function(file, i) {
 		return '<li style="width: 49%; display: inline-block; list-style: none; background-color: #888;"><h2 style="font: 3vw sans-serif; margin: 0; padding: 1em; text-align: center;">' + pageList[i] + '</h2><img style="width: 100%; display: block;" src="difference/' + file + timeMod + '.png"/></li>'
 	})
 
 	fs.writeFile('test/index_test' + timeMod + '.html', imgList, function (err) {});
 
-	var fileServer = new staticN.Server();
+	const fileServer = new staticN.Server();
 
 	http.createServer(function (req, res) {
 		req.addListener('end', function () {
