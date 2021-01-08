@@ -39,7 +39,7 @@ npm init
 npm i chrome-launcher fs http node-static path pixelmatch pngjs puppeteer
 {% endhighlight %}
 
-Установка может занять некоторое время, так как в пакет puppeteer входит установка браузера chromium
+Установка может занять некоторое время, так как в пакет puppeteer входит установка браузера Chromium.
 
 ## Настройка gulp.js
 
@@ -58,7 +58,7 @@ const path = require('path');
 
 Конфигурация под конкретный проект:
 
-Указываем ширину страницу при тестировании
+Указываем ширину страницы при тестировании
 {% highlight html %}
 var initialPageWidth = 1920;
 {% endhighlight %}
