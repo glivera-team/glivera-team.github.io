@@ -45,7 +45,7 @@ npm i chrome-launcher fs http node-static path pixelmatch pngjs puppeteer
 
 Прописываем зависимости для установленных пакетов
 
-{% highlight html %}
+{% highlight javascript %}
 const puppeteer = require('puppeteer');
 const fs = require('fs');
 const PNG = require('pngjs').PNG;
@@ -59,8 +59,8 @@ const path = require('path');
 Конфигурация под конкретный проект:
 
 Указываем ширину страницы при тестировании
-{% highlight html %}
-var initialPageWidth = 1920;
+{% highlight javascript %}
+const initialPageWidth = 1920;
 {% endhighlight %}
 
 И список тестируемых страниц вносим в массив `pageList`:
@@ -97,7 +97,7 @@ var pageList = [
 * <b>difference</b> - для хранения результата сравнения новых скриншотов с эталонными
 
 Создаем переменные для сохранения путей: 
-{% highlight html %}
+{% highlight javascript %}
 var beforeDir = 'test/before/',
 		afterDir = 'test/after/',
 		diffDir = 'test/difference/';
@@ -108,7 +108,7 @@ var beforeDir = 'test/before/',
 ### 1.Таск создания эталонных скриншотов
 
 Изначально с помощью модуля `fs` создаем каталоги, в которых будут храниться результаты тестирования, если они отсутствуют. А также очищаем от старых скриншотов, если такие имеются.
-{% highlight html %}
+{% highlight javascript %}
 if (!fs.existsSync('test')){
 		fs.mkdirSync('test');
 	}
@@ -130,7 +130,7 @@ if (!fs.existsSync('test')){
 После проходим по массиву страниц pageList, который мы заполнили ранее. 
 В `page.goto` указываем адрес страниц, в данном случае это `http://localhost:1337/`
 В `page.screenshot` - каталог для сохраниния скриншотов, а также указываем `fullPage: true` для сохранения страницы целиком, а не определенной высоты 
-{% highlight html %}
+{% highlight javascript %}
 pageList.map(async function(element, index) {
 	const browser = await puppeteer.launch();
 	const page = await browser.newPage();
@@ -147,7 +147,7 @@ pageList.map(async function(element, index) {
 {% endhighlight %}
 
 Полностью таск создания эталонных скриншотов выглядит так:
-{% highlight html %}
+{% highlight javascript %}
 gulp.task('test-init', function() {
 	if (!fs.existsSync('test')){
 		fs.mkdirSync('test');
@@ -190,7 +190,7 @@ gulp test-init
 
 Как и в предыдущем таске, создаем необходимые каталоги или очищаем их от старых файлов:
 
-{% highlight html %}
+{% highlight javascript %}
 var clearDir = [diffDir, afterDir, 'test/']
 
 if (!fs.existsSync(afterDir)){
@@ -214,7 +214,7 @@ clearDir.map(function(element, index) {
 
 Далее проходим массив страниц для создания новых страниц, сравнивая их с эталонными
 
-{% highlight html %}
+{% highlight javascript %}
 pageList.map(async function(element, index) {
 	const browser = await puppeteer.launch();
 	const page = await browser.newPage();
@@ -235,7 +235,7 @@ pageList.map(async function(element, index) {
 Код выше аналогичен созданию эталонных скриншотов, кроме дополнительного внесения каждого сделанного скриншота в массив `img1`
 Далее с помощью функий `parse2` мы вносим и эталонные скриншоты в массив `img2`, после сравниваем их с помощью фунции `doneReading`, полученный результат записывая в необходимый каталог:
 
-{% highlight html %}
+{% highlight javascript %}
 function parse2(element, index, pageName) {
 	img2[index] = fs.createReadStream(beforeDir + element + '.png').pipe(new PNG()).on('parsed', function() { doneReading(img1[index], img2[index], element)});
 }
@@ -255,25 +255,25 @@ function doneReading(img1, img2, pageName) {
 Для дополнительного удобства выводим все изображения сравненных страниц на одной странице и открываем ее в браузере.
 
 Создадим переменную, которую будем использовать как модификатор в именах изображений и страниц для избежания кеширования в браузере:
-{% highlight html %}
+{% highlight javascript %}
 var timeMod = new Date().getTime();
 {% endhighlight %}
 
 
 Далее создаем список всех страниц с именем и изображением
-{% highlight html %}
+{% highlight javascript %}
 var imgList = pageList.map(function(file, i) {
 	return '<li style="width: 49%; display: inline-block; list-style: none; background-color: #888;"><h2 style="font: 3vw sans-serif; margin: 0; padding: 1em; text-align: center;">' + pageList[i] + '</h2><img style="width: 100%; display: block;" src="difference/' + file + timeMod + '.png"/></li>'
 })
 {% endhighlight %}
 
 И вносим созданный выше список в html файл
-{% highlight html %}
+{% highlight javascript %}
 fs.writeFile('test/index_test' + timeMod + '.html', imgList, function (err) {});
 {% endhighlight %}
 
 И в завершение создаем локальный сервер с этой страницей и открываем ее в браузере Google Chrome:
-{% highlight html %}
+{% highlight javascript %}
 var fileServer = new staticN.Server();
 
 http.createServer(function (req, res) {
@@ -294,7 +294,7 @@ chromeLauncher.launch({
 
 
 Полностью таск создания новых скриншотов и сравнения их с эталонными выглядит так:
-{% highlight html %}
+{% highlight javascript %}
 gulp.task('test-compare', function() {
 	var timeMod = new Date().getTime();
 	var clearDir = [diffDir, afterDir, 'test/']
